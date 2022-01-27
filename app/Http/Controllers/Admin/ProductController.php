@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Http\Requests\Admin\ProductRequest;
 use Illuminate\Support\Str;
-
+use DB;
 class ProductController extends Controller
 {
     /**
@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $items =\DB::table('products')->get();
+        $items = DB::table('products')->get();
         return view('pages.admin.product.index',[
             'items' => $items
         ]);
@@ -30,7 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $items =\DB::table('products')
+        $items = DB::table('products')
         ->select('satuan_product')->get();
         return view('pages.admin.product.create',[
             'items' => $items
@@ -69,7 +69,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $item = \DB::table('products')->where('id_product',$id)->first();
+        $item = DB::table('products')->where('id_product',$id)->first();
         return view('pages.admin.product.edit',[
             'item' => $item, 
         ]);
@@ -88,7 +88,7 @@ class ProductController extends Controller
 
         // $item = \DB::table('distributors')->where('id_distributor',$id_distributor)->first();
         // $item->update($data);   
-       $item =  \DB::table('products')->where('id_product',$id)->update($data);
+       $item =  DB::table('products')->where('id_product',$id)->update($data);
         return redirect()->route('product.index');
     }
 
@@ -100,7 +100,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        \DB::table('products')->where('id_product',$id)->delete();
+        DB::table('products')->where('id_product',$id)->delete();
 
         return redirect()->route('product.index');
     }

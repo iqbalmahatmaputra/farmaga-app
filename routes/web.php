@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/cariData', 'Admin/ProductController@dataAjax')->name('cariData');
+Route::get('/cariData', 'Admin\ProductController@dataAjax')->name('cariData');
 
 Route::get('/autocomplete-search', [ProductController::class, 'autocompleteSearch']);
 
