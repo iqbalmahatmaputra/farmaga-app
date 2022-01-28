@@ -67,14 +67,14 @@
 
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePegawai" aria-expanded="true" aria-controls="collapsePegawai">
     <i class="fas fa-fw fa-cog"></i>
     <span>Pegawai</span>
   </a>
-  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+  <div id="collapsePegawai" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
     <div class="bg-white py-2 collapse-inner rounded">
       <h6 class="collapse-header">Order Barang:</h6>
-      <a class="collapse-item" href="{{route ('product.index')}}">Order Product</a>
+      <a class="collapse-item" href="{{route ('productOrder.index')}}">Order Product</a>
       <a class="collapse-item" href="{{route ('productPrice.index')}}">Data Produk Harga</a>
       <a class="collapse-item" href="{{route ('distributor.index')}}">Data Distributor</a>
     </div>

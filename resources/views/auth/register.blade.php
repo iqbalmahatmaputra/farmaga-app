@@ -59,9 +59,9 @@
                             <div class="col-md-6">
                                
                                 <select id="cabang" name="cabang" required class="form-control @error('cabang') is-invalid @enderror">
-                                    <option value="Cabang 1">Cabang 1</option>
-                                    <option value="Cabang 2">Cabang 2</option>
-                                    <option value="Cabang 3">Cabang 3</option>
+                                    <option value="CBG1">Cabang 1</option>
+                                    <option value="CBG2">Cabang 2</option>
+                                    <option value="CBG3">Cabang 3</option>
                                 </select>
 
 

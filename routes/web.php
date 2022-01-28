@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+// Data AJax routes
 Route::get('/cariData', 'Admin\ProductController@dataAjax')->name('cariData');
+Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->name('cariDataProduct');
+Route::get('/cariDataDistributor', 'Admin\ProductOrderController@dataAjaxDistributor')->name('cariDataDistributor');
+
 
 Route::get('/autocomplete-search', [ProductController::class, 'autocompleteSearch']);
 
@@ -31,6 +35,7 @@ Route::prefix('admin')
     Route::resource('distributor','DistributorController');
     Route::resource('product','ProductController');
     Route::resource('productPrice','ProductPriceController');
+    Route::resource('productOrder','ProductOrderController');
 
     
 
