@@ -34,7 +34,7 @@ class ProductOrderController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.productOrder.create');
+        return view('pages.admin.productOrder.create2');
     }
 
     /**
@@ -63,6 +63,34 @@ class ProductOrderController extends Controller
         $data['status_order'] = 'Request';
         $data['id_user'] = Auth::user()->id;
         $data['nomor_order'] = $nomor_order;
+    	DB::table('product_orders')->insert($data);
+
+        return redirect()->route('productOrder.index');
+
+
+    }
+    public function AddMoreOrder(Request $request)
+    {
+        $today = date('Y.m.d');
+        $hariOrder = date('Y-m-d');
+        $satu = 1;
+        $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->where('id_user',Auth::user()->id)->count();
+        $nomor_order = sprintf("%03s", abs($nomorUrut + $satu))."/".Auth::user()->cabang."/".$today;
+        $data = array();
+        foreach ($request->addmore as $key => $value) {
+            $cariId = \DB::table('v_harga_produk')->select('id_product_price','id_product','id_distributor','harga')
+            ->where('id_product_price',$request->id_product_price)
+            ->first();
+            
+            $data['id_product_price'] = $request->id_product_price;
+            $data['qty'] = $request[qty];
+            $data['id_product'] = $cariId[id_product];
+            $data['id_distributor'] = $cariId[id_distributor];
+            $data['harga_order'] = $cariId->harga;
+            $data['status_order'] = 'Request';
+            $data['id_user'] = Auth::user()->id;
+            $data['nomor_order'] = $nomor_order;
+        }
     	DB::table('product_orders')->insert($data);
 
         return redirect()->route('productOrder.index');

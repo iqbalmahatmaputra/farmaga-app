@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::get('/cariData', 'Admin\ProductController@dataAjax')->name('cariData');
 Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->name('cariDataProduct');
 Route::get('/cariDataDistributor', 'Admin\ProductOrderController@dataAjaxDistributor')->name('cariDataDistributor');
+Route::post('/AddMoreOrder', 'Admin\ProductOrderController@AddMoreOrder')->name('AddMoreOrder');
 
 
 Route::get('/autocomplete-search', [ProductController::class, 'autocompleteSearch']);
