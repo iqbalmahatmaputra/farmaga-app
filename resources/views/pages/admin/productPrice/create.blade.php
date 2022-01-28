@@ -8,7 +8,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Tambah Data Product Harga</h1>
-        <a href="{{route('productPrice.index')}}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-back fa-sm text-white-50"></i> Batal</a>
+        <a href="{{ url()->previous() }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-back fa-sm text-white-50"></i> Batal</a>
     </div>
 
     <div class="row">
@@ -38,17 +38,11 @@
                  <form action="{{route('productPrice.store')}}" method="post">
                      @csrf
                      <div class="form-group">
-                         <label for="product">Produk</label>
-                         <select class="form-control" name="id_product">
-                             <option>Pilih Produk</option>
-                             @forelse ($product_items as $product_item)
-                             <option name="id_product" class="form-control" value="{{$product_item->id_product}}">{{$product_item->nama_product}}</option>
-                             
-                             @empty
-                             <option name="id_product" class="form-control" value="Kosong">Data Kosong</option>
-                             @endforelse
-                            </select>
-                        </div>
+                                <label for="product">Nama Produk</label>
+                                <!-- <input type="search" name="satuan_product" class="form-control" placeholder="satuan product" value="{{old('satuan_product')}}"> -->
+
+                                <select class="itemName form-control" name="id_product"></select>
+                            </div>
                         <div class="form-group">
                             <label for="product">Distributor</label>
                             <select class="form-control" name="id_distributor">
@@ -76,7 +70,32 @@
 
 
 </div>
-
-
-<!-- /.container-fluid -->
+<script type="text/javascript">
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
+    });
+$('.itemName').select2({
+  placeholder: 'Pilih Produk',
+  tags: true,
+  ajax: {
+    url: '/cariDataProductAja',
+    dataType: 'json',
+    delay: 250,
+    processResults: function (data) {
+      return {
+        results:  $.map(data, function (item) {
+              return {
+                  text: item.nama_product,
+                  id: item.id_product,
+              }
+          })
+      };
+    },
+    cache: true
+  }
+  
+});
+</script>
 @endsection

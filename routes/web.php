@@ -19,6 +19,7 @@ Route::get('/', function () {
 // Data AJax routes
 Route::get('/cariData', 'Admin\ProductController@dataAjax')->name('cariData');
 Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->name('cariDataProduct');
+Route::get('/cariDataProductAja', 'Admin\ProductPriceController@dataAjaxProduct')->name('cariDataProductAja');
 Route::get('/cariDataDistributor', 'Admin\ProductOrderController@dataAjaxDistributor')->name('cariDataDistributor');
 Route::post('/AddMoreOrder', 'Admin\ProductOrderController@AddMoreOrder')->name('AddMoreOrder');
 

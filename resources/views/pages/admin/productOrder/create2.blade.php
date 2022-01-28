@@ -59,8 +59,8 @@
 
                             <table class="table table-bordered" id="dynamicTable">
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Qty</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
                                     <th>Action</th>
                                 </tr>
                                 <tr>

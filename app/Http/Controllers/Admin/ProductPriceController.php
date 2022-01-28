@@ -17,7 +17,7 @@ class ProductPriceController extends Controller
      */
     public function index()
     {
-        $items =\DB::table('v_harga_products')->get();
+        $items =\DB::table('v_harga_produk')->get();
         return view('pages.admin.productPrice.index',[
             'items' => $items
         ]);
@@ -73,7 +73,7 @@ class ProductPriceController extends Controller
     {
         $items = \DB::table('products_price')->where('id_product_price',$id)->first();
         // $product_items =\DB::table('v_harga_products')->get();
-        $product_items = \DB::table('v_harga_products')->where('id_product_price',$id)->get();
+        $product_items = \DB::table('v_harga_produk')->where('id_product_price',$id)->get();
         $pilihs = \DB::table('v_harga_produk')->where('id_product_price',$id)->first();
         $dist_items =\DB::table('distributors')->get();
         $prod_items =\DB::table('products')->get();
@@ -114,5 +114,18 @@ class ProductPriceController extends Controller
         \DB::table('products_price')->where('id_product_price',$id)->delete();
 
         return redirect()->route('productPrice.index');
+    }
+    public function dataAjaxProduct(Request $request)
+    {
+    	$data = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            
+                    $data = \DB::table('products')->select('id_product','nama_product')
+                    ->where('nama_product','LIKE',"%$search%")
+                    ->get();
+        }
+        return response()->json($data);
     }
 }

@@ -83,9 +83,9 @@ class ProductOrderController extends Controller
             ->first();
             
             $data['id_product_price'] = $request->id_product_price;
-            $data['qty'] = $request[qty];
-            $data['id_product'] = $cariId[id_product];
-            $data['id_distributor'] = $cariId[id_distributor];
+            $data['qty'] = $request->qty;
+            $data['id_product'] = $cariId->id_product;
+            $data['id_distributor'] = $cariId->id_distributor;
             $data['harga_order'] = $cariId->harga;
             $data['status_order'] = 'Request';
             $data['id_user'] = Auth::user()->id;
