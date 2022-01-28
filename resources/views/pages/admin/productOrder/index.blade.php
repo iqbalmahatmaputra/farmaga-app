@@ -30,7 +30,7 @@
                                     <th>Produk</th>
                                     <th>Distributor</th>
                                     <th>Harga</th>
-                                    <th>Dari</th>
+                                    <th>Jumlah</th>
                                     <th>Status Order</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -43,7 +43,7 @@
                                     <th>Produk</th>
                                     <th>Distributor</th>
                                     <th>Harga</th>
-                                    <th>Dari</th>
+                                    <th>Jumlah</th>
                                     <th>Status Order</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -54,19 +54,19 @@
                             
                                     <td>{{$item->created_at}}</td>
                                     <td>{{$item->nomor_order}}</td>
-                                    <td>{{$item->id_product}}</td>
-                                    <td>{{$item->id_distributor}}</td>
+                                    <td>{{$item->nama_product}}</td>
+                                    <td>{{$item->nama_distributor}}</td>
                                     <td>{{$item->harga_order}}</td>
-                                    <td>{{$item->id_user}}</td>
+                                    <td>{{$item->qty}}</td> 
                                     <td>{{$item->status_order}}</td>
                                     <td>
-                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info">Edit <i class="fa fa-pencil-alt"></i></a>
+                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
                                         <form action="{{route('product.destroy',$item->id_product)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger">
-                                                Hapus <i class="fa fa-fw fa-trash"></i>
+                                                <i class="fa fa-fw fa-trash"></i>
                                             </form>
                                     </td>
 

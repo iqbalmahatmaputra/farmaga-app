@@ -8,6 +8,7 @@ use DB;
 use App\Http\Requests\Admin\ProductOrderRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\ProductOrder;
 
 
 
@@ -21,7 +22,7 @@ class ProductOrderController extends Controller
      */
     public function index()
     {
-        $items = DB::table('product_orders')->get();
+        $items = DB::table('v_order_products')->get();
         return view('pages.admin.productOrder.index',[
             'items' => $items
         ]);
@@ -69,7 +70,39 @@ class ProductOrderController extends Controller
 
 
     }
-    public function AddMoreOrder(Request $request)
+
+    public function AddMoreOrder(Request $request){
+        $today = date('Y.m.d');
+        $hariOrder = date('Y-m-d');
+        $satu = 1;
+        $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->where('id_user',Auth::user()->id)->count();
+        $nomor_order = sprintf("%03s", abs($nomorUrut + $satu))."/".Auth::user()->cabang."/".$today;
+        $data = array();
+
+        $hitung = count($request->id_product_price);
+        if($hitung >= 1 && $request->id_product_price[0] != '')
+        {
+            for($i=0;$i<$hitung;$i++)
+            {
+                $cariId = \DB::table('v_harga_produk')->select('id_product_price','id_product','id_distributor','harga')
+                    ->where('id_product_price',$request->id_product_price[$i])
+                    ->first();
+                $save = new ProductOrder;
+                $save->id_product_price = $request->id_product_price[$i];
+                $save->qty = $request->qty[$i];
+                $save->id_product = $cariId->id_product;
+                $save->id_distributor = $cariId->id_distributor;
+                $save->harga_order = $cariId->harga;
+                $save->status_order = 'Request';
+                $save->id_user = Auth::user()->id;
+                $save->nomor_order = $nomor_order;
+                $save->save();
+            }
+        }
+
+        return redirect()->route('productOrder.index');
+    }
+    public function AddMoreOrder_b(Request $request)
     {
         $today = date('Y.m.d');
         $hariOrder = date('Y-m-d');

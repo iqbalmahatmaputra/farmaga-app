@@ -94,7 +94,7 @@
                                                     class="img-radius" style="max-width:100px;max-height:100px;"
                                                     alt="User-Profile-Image"> </div>
                                             <h6 class="f-w-600">{{Auth::user()->name }}</h6>
-                                            <p>{{ Auth::user()->cabang }}</p> <i
+                                            <p></p> <i
                                                 class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                         </div>
                                     </div>
@@ -102,24 +102,21 @@
                                         <div class="card-block">
                                             <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
                                             <div class="row">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <p class="m-b-10 f-w-600">Email</p>
                                                     <h6 class="text-muted f-w-400">{{Auth::user()->email}}</h6>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <p class="m-b-10 f-w-600">Phone</p>
-                                                    <h6 class="text-muted f-w-400">98979989898</h6>
-                                                </div>
+                                               
                                             </div>
-                                            <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
+                                            <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600"></h6>
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <p class="m-b-10 f-w-600">Recent</p>
-                                                    <h6 class="text-muted f-w-400">Sam Disuja</h6>
+                                                    <p class="m-b-10 f-w-600">Username</p>
+                                                    <h6 class="text-muted f-w-400">{{Auth::user()->username}}</h6>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <p class="m-b-10 f-w-600">Most Viewed</p>
-                                                    <h6 class="text-muted f-w-400">Dinoter husainm</h6>
+                                                    <p class="m-b-10 f-w-600">Kode Divisi</p>
+                                                    <h6 class="text-muted f-w-400">{{ Auth::user()->cabang }}</h6>
                                                 </div>
                                             </div>
                                             <ul class="social-link list-unstyled m-t-40 m-b-10">

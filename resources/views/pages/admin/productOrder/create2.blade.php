@@ -37,7 +37,7 @@
 
                 <div class="card shadow">
                     <div class="card-body">
-                        <form action="{{ route('AddMoreOrder') }}" method="POST">
+                        <form action="{{ route('AddMoreOrder') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             @if ($errors->any())
@@ -59,17 +59,17 @@
 
                             <table class="table table-bordered" id="dynamicTable">
                                 <tr>
-                                    <th>Produk</th>
-                                    <th>Jumlah</th>
+                                    <th>Name</th>
+                                    <th>Qty</th>
                                     <th>Action</th>
                                 </tr>
                                 <tr>
                                     <!-- <td><input type="text" name="addmore[0][id_product_price]" placeholder="Masukkan Nama Produk"
                                             class="form-control" /></td> -->
                                             <td>
-                                <select class="form-control itemNameProduct" name="addmore[0][id_product_price]"></select>
+                                <select class="form-control itemNameProduct" name="id_product_price[]"></select>
                                             </td>
-                                    <td><input type="number" name="addmore[0][qty]" placeholder="Masukkan Jumlah"
+                                    <td><input type="number" name="qty[]" placeholder="Masukkan Jumlah"
                                             class="form-control" /></td>
                                     <td><button type="button" name="add" id="add" class="btn btn-success">Tambah Item</button></td>
                                 </tr>
@@ -92,13 +92,14 @@
    
         ++i;
    
-        $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="addmore['+i+'][id_product_price]"></select></td><td><input type="number" name="addmore['+i+'][qty]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
+        // $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="addmore['+i+'][id_product_price]"></select></td><td><input type="number" name="addmore['+i+'][qty]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
+        $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="id_product_price[]"></select></td><td><input type="number" name="qty[]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
     
         $('.itemNameProduct').select2({
         placeholder: 'Pilih Produk',
         width: '100%',
         ajax: {
-            url: '/cariDataProduct',
+            url: "{{ route('cariDataProduct') }}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
@@ -136,7 +137,7 @@
         placeholder: 'Pilih Produk',
         width: '100%',
         ajax: {
-            url: '/cariDataProduct',
+            url: "{{ route('cariDataProduct') }}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
@@ -154,39 +155,6 @@
     });
   
 </script>
-<!-- 
-<script type="text/javascript">
-   
-  $('.cari').select2({
-    placeholder: 'Cari...',
-    ajax: {
-      url: '{{route('cariData')}}',
-      dataType: 'json',
-      delay: 250,
-      processResults: function (data) {
-        return {
-          results:  $.map(data, function (item) {
-            return {
-              text: item.email,
-              id: item.id
-            }
-          })
-        };
-      },
-      cache: true
-    }
-  });
-
-</script> -->
-
-<!-- <script>
-  $( function() {
-   var data = $items->satuan_product;
-    $( "#tags" ).autocomplete({
-      source:data
-    });
-  } );
-  </script> -->
 
 <!-- /.container-fluid -->
 @endsection
