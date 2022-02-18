@@ -42,16 +42,16 @@
                                 @forelse ($items as $item)
                                 <tr>
                             
-                                    <td>{{$item->nama_product}}</td>
+                                    <td>{{ucwords($item->nama_product)}}</td>
                                     <td>{{$item->satuan_product}}</td>
                                     <td>
-                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info">Edit <i class="fa fa-pencil-alt"></i></a>
+                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
                                         <form action="{{route('product.destroy',$item->id_product)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger">
-                                                Hapus <i class="fa fa-fw fa-trash"></i>
+                                                <i class="fa fa-fw fa-trash"></i>
                                             </form>
                                     </td>
 

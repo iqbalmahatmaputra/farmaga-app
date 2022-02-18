@@ -22,11 +22,35 @@ class ProductOrderController extends Controller
      */
     public function index()
     {
-        $items = DB::table('v_order_products')->get();
-        return view('pages.admin.productOrder.index',[
-            'items' => $items
-        ]);
-    }
+        if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG") {
+            # code...
+            $items = DB::table('v_order_products_user')->get();
+            $totalOrder = DB::table('v_order_products_user')->count();
+            $totalPendingOrder = DB::table('v_order_products_user')->where('status_order','Request')->count();
+            $totalSelesaiOrder = DB::table('v_order_products_user')->where('status_order','Selesai')->count();
+            return view('pages.admin.productOrder.index',[
+                'items' => $items,
+                'totalOrder' => $totalOrder,
+                'totalPendingOrder' => $totalPendingOrder,
+                'totalSelesaiOrder' => $totalSelesaiOrder
+            ]);
+        }elseif(Auth::user()->roles == "USER"){
+            $saya = Auth::user()->cabang;
+            $items = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->get();
+            $totalOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->count();
+            $totalPendingOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Request')->count();
+            $totalSelesaiOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Selesai')->count();
+            
+            return view('pages.admin.productOrder.index',[
+                'items' => $items,
+                'totalOrder' => $totalOrder,
+                'totalPendingOrder' => $totalPendingOrder,
+                'totalSelesaiOrder' => $totalSelesaiOrder
+            ]);
+        }else{
+            echo "Tidak Member";
+        }
+        }
 
     /**
      * Show the form for creating a new resource.
@@ -51,7 +75,7 @@ class ProductOrderController extends Controller
                     ->first();
         $today = date('Y.m.d');
         $hariOrder = date('Y-m-d');
-        $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->count();
+        $nomorUrut = \DB::table('product_orders')->distinct()->count('nomor_order')->where('nomor_order','LIKE',"%$today%");
        $satu = 1;
         $nomor_order = sprintf("%03s", abs($nomorUrut + $satu))."/".Auth::user()->cabang."/".$today;
 
@@ -75,8 +99,11 @@ class ProductOrderController extends Controller
         $today = date('Y.m.d');
         $hariOrder = date('Y-m-d');
         $satu = 1;
-        $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->where('id_user',Auth::user()->id)->count();
-        $nomor_order = sprintf("%03s", abs($nomorUrut + $satu))."/".Auth::user()->cabang."/".$today;
+        $nomorUrut = \DB::table('product_orders')->where('nomor_order','LIKE',"%$today%")->distinct()->count('nomor_order');
+
+        // $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->where('id_user',Auth::user()->id)->count();
+        // $nomor_order = sprintf("%03s", abs($nomorUrut + $satu))."/".Auth::user()->cabang."/".$today;
+        $nomor_order = sprintf("%03s", abs(Auth::user()->id_cabang))."/".Auth::user()->cabang."/".$today;
         $data = array();
 
         $hitung = count($request->id_product_price);
@@ -107,27 +134,32 @@ class ProductOrderController extends Controller
         $today = date('Y.m.d');
         $hariOrder = date('Y-m-d');
         $satu = 1;
-        $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->where('id_user',Auth::user()->id)->count();
+        $nomorUrut = \DB::table('product_orders')->where('nomor_order','LIKE',"%$today%")->distinct()->count('nomor_order');
+
+        // $nomorUrut = \DB::table('product_orders')->where('created_at','LIKE',"$hariOrder%")->where('id_user',Auth::user()->id)->count();
         $nomor_order = sprintf("%03s", abs($nomorUrut + $satu))."/".Auth::user()->cabang."/".$today;
         $data = array();
-        foreach ($request->addmore as $key => $value) {
-            $cariId = \DB::table('v_harga_produk')->select('id_product_price','id_product','id_distributor','harga')
-            ->where('id_product_price',$request->id_product_price)
-            ->first();
-            
-            $data['id_product_price'] = $request->id_product_price;
-            $data['qty'] = $request->qty;
-            $data['id_product'] = $cariId->id_product;
-            $data['id_distributor'] = $cariId->id_distributor;
-            $data['harga_order'] = $cariId->harga;
-            $data['status_order'] = 'Request';
-            $data['id_user'] = Auth::user()->id;
-            $data['nomor_order'] = $nomor_order;
+
+        $hitung = count($request->id_product_price);
+        if($hitung >= 1 && $request->id_product_price[0] != '')
+        {
+            for($i=0;$i<$hitung;$i++)
+            {
+                $cariId = \DB::table('v_harga_produk')->select('id_product_price','id_product','id_distributor','harga')
+                    ->where('id_product_price',$request->id_product_price[$i])
+                    ->first();
+                $save = new ProductOrder;
+                $save->id_product_price = $request->id_product_price[$i];
+                $save->qty = $request->qty[$i];
+                $save->id_product = $cariId->id_product;
+                $save->id_distributor = $cariId->id_distributor;
+                $save->harga_order = $cariId->harga;
+                $save->status_order = 'Request';
+                $save->id_user = Auth::user()->id;
+                $save->nomor_order = $nomor_order;
+                $save->save();
+            }
         }
-    	DB::table('product_orders')->insert($data);
-
-        return redirect()->route('productOrder.index');
-
 
     }
 
@@ -173,7 +205,9 @@ class ProductOrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('product_orders')->where('id_product_order',$id)->delete();
+
+        return redirect()->route('productOrder.index');
     }
 
     public function dataAjaxProduct(Request $request)

@@ -95,4 +95,6 @@
        
         </div>
         <!-- /.container-fluid -->
+
+        @include('components.graph')
 @endsection

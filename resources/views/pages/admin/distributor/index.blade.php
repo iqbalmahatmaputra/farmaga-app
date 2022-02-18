@@ -48,13 +48,13 @@
                                     <td>{{$item->alamat_distributor}}</td>
                                     <td>{{$item->no_hp_distributor}}</td>
                                     <td>
-                                    <a href="{{route('distributor.edit',$item->id_distributor)}}" class="btn btn-info">Edit <i class="fa fa-pencil-alt"></i></a>
+                                    <a href="{{route('distributor.edit',$item->id_distributor)}}" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
                                         <form action="{{route('distributor.destroy',$item->id_distributor)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger">
-                                                Hapus <i class="fa fa-fw fa-trash"></i>
+                                                <i class="fa fa-fw fa-trash"></i>
                                             </form>
                                     </td>
 

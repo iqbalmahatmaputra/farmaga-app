@@ -7,7 +7,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Tambah Order</h1>
+        <h1 class="h3 mb-0 text-gray-800">Order ke {{$nama->nama_distributor}}</h1>
         <a href="{{ url()->previous() }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i
                 class="fas fa-back fa-sm text-white-50"></i> Batal</a>
     </div>
@@ -18,8 +18,8 @@
         <div class="col-xl-12 col-md-12 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Order Produk</h6>
-                    <small>Produk dan Distributor akan tampil jika <b>Gudang</b> sudah memberikan harga</small>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Order PBF</h6>
+                    <small>Produk akan tampil jika sesuai yang di order</small>
                 </div>
 
                 @if ($errors->any())
@@ -59,19 +59,27 @@
 
                             <table class="table table-bordered" id="dynamicTable">
                                 <tr>
-                                    <th>Nama</th>
+                                    <th>Nama Produk</th>
                                     <th>Jumlah</th>
+                                    <th>Satuan</th>
                                     <th>Action</th>
                                 </tr>
                                 <tr>
                                     <!-- <td><input type="text" name="addmore[0][id_product_price]" placeholder="Masukkan Nama Produk"
                                             class="form-control" /></td> -->
-                                            <td>
-                                <select class="form-control itemNameProduct" name="id_product_price[]"></select>
-                                            </td>
+                                    <td>
+                                        <select class="form-control itemNameProduct" name="id_product_price[]"></select>
+                                    </td>
                                     <td><input type="number" name="qty[]" placeholder="Masukkan Jumlah"
                                             class="form-control" /></td>
-                                    <td><button type="button" name="add" id="add" class="btn btn-success">Tambah Item</button></td>
+                                    <td><select class="form-control" name="satuan[]">
+                                            <option value="Box">Box</option>
+                                            <option value="Botol">Botol</option>
+                                            <option value="Pieces">Pieces</option>
+                                        </select>
+                                    </td>
+                                    <td><button type="button" name="add" id="add" class="btn btn-success">Tambah
+                                            Item</button></td>
                                 </tr>
                             </table>
 
@@ -83,46 +91,51 @@
         </div>
     </div>
 </div>
-  
+
 <script type="text/javascript">
-   
     var i = 0;
-       
-    $("#add").click(function(){
-   
-        ++i;
-   
-        // $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="addmore['+i+'][id_product_price]"></select></td><td><input type="number" name="addmore['+i+'][qty]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
-        $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="id_product_price[]"></select></td><td><input type="number" name="qty[]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Batalkan Item</button></td></tr>');
-    
-        $('.itemNameProduct').select2({
-        placeholder: 'Pilih Produk',
-        width: '100%',
-        ajax: {
-            url: "{{ route('cariDataProduct') }}",
-            dataType: 'json',
-            delay: 250,
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.nama,
-                            id: item.id_product_price
-                        }
-                    })
-                };
-            },
-            cache: true
+    var pbf = {
+        {
+            $nama - > nama_distributor
         }
+    };
+    $("#add").click(function () {
+
+        ++i;
+
+
+        $("#dynamicTable").append(
+            '<tr><td><select class="form-control itemNameProduct" name="id_product_price[]"></select></td><td><input type="number" name="qty[]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Batalkan Item</button></td></tr>'
+            );
+
+        $('.itemNameProduct').select2({
+            placeholder: 'Pilih Produk',
+            width: '100%',
+            ajax: {
+                url: "{{ route('cariDataProduct') }}",
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.nama,
+                                id: item.id_product_price
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+
     });
 
-    
-      });
-   
-    $(document).on('click', '.remove-tr', function(){  
-         $(this).parents('tr').remove();
-    });  
-   
+    $(document).on('click', '.remove-tr', function () {
+        $(this).parents('tr').remove();
+    });
+
 </script>
 
 <script type="text/javascript">
@@ -153,7 +166,7 @@
             cache: true
         }
     });
-  
+
 </script>
 
 <!-- /.container-fluid -->

@@ -46,15 +46,15 @@
                             
                                     <td>{{$item->nama_product}}</td>
                                     <td>{{$item->nama_distributor}}</td>
-                                    <td>{{$item->harga}}</td>
+                                    <td>@currency($item->harga)</td>
                                     <td>
-                                    <a href="{{route('productPrice.edit',$item->id_product_price)}}" class="btn btn-info">Edit <i class="fa fa-pencil-alt"></i></a>
+                                    <a href="{{route('productPrice.edit',$item->id_product_price)}}" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
                                         <form action="{{route('productPrice.destroy',$item->id_product_price)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger">
-                                                Hapus <i class="fa fa-fw fa-trash"></i>
+                                                <i class="fa fa-fw fa-trash"></i>
                                             </form>
                                     </td>
 
