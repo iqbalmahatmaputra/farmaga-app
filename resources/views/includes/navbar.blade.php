@@ -3,7 +3,7 @@
         <?php 
                      $today = date('Y.m.d');
                      $nomor_order = sprintf("%03s", abs(Auth::user()->id_cabang))."/".Auth::user()->cabang."/".$today;
-                     $jumlah_order = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->count(); ?>
+                     $jumlah_order = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->where('status_order','Keranjang')->count(); ?>
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
@@ -46,7 +46,7 @@
 
             <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle animate__animated animate__tada animate__infinite" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
                 <span class="badge badge-danger badge-counter">{{$jumlah_order}}</span>

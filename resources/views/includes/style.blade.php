@@ -6,7 +6,8 @@
   <!-- Custom styles for this template-->
   <link href="{{ url('backend/css/sb-admin-2.min.css')}}" rel="stylesheet">
   <link href="{{ url('backend/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
   <style>
 
 .padding {

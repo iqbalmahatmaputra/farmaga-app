@@ -27,7 +27,7 @@
         $today = date('Y.m.d');
         $nomor_order = sprintf("%03s", abs(Auth::user()->id_cabang))."/".Auth::user()->cabang."/".$today;
 
-                $items = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->orderBy('nama_distributor')->get();
+                $items = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->where('status_order','Keranjang')->orderBy('nama_distributor')->get();
                 ?>
                 @forelse ($items as $item)
                 <tr>
@@ -37,18 +37,25 @@
                     <td>{{$item->qty}}</td>
                     <td>{{$item->name_user}}</td>
                     <td>
+                    <form action="{{route('productOrder.update',$item->id_product_order)}}"
+                                            method="post" class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-primary">
+                                                <i class="fa fa-fw fa-shopping-cart"></i> </button>
+                                            </form>
                     <form action="{{route('productOrder.destroy',$item->id_product_order)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger">
-                                                <i class="fa fa-fw fa-trash"></i>
+                                                <i class="fa fa-fw fa-trash"></i> </button>
                                             </form>
                     </td>
                 </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center"> Belum Ada Data</td>
+                        <td colspan="6" class="text-center"> Belum Ada Produk yang di Pesan</td>
                     </tr>
                 @endforelse
 
@@ -57,7 +64,15 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a type="button" class="btn btn-primary text-white">Check Out</a>
+       
+        <form action="{{url('/CheckOutAll')}}"
+                                            method="post" class="d-inline">
+                                            @csrf
+                                            @method('post')
+                                            <input type="hidden" name="nomor_order" value="{{$nomor_order}}"/>
+                                            <button class="btn btn-primary">
+                                            <i class="fa fa-fw fa-shopping-cart"></i> All Check Out </button>
+                                            </form>
       </div>
     </div>
   </div>

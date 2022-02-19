@@ -18,17 +18,20 @@ Route::get('/', function () {
 });
 // Data AJax routes
 Route::get('/cariData', 'Admin\ProductController@dataAjax')->name('cariData');
-Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->name('cariDataProduct');
 Route::get('/cariDataProductPBF', 'Admin\WarehouseController@dataAjaxProduct')->name('cariDataProductPBF');
 Route::get('/cariDataProductAja', 'Admin\ProductPriceController@dataAjaxProduct')->name('cariDataProductAja');
-Route::get('/cariDataDistributor', 'Admin\ProductOrderController@dataAjaxDistributor')->name('cariDataDistributor');
-Route::post('/AddMoreOrder', 'Admin\ProductOrderController@AddMoreOrder')->name('AddMoreOrder');
+
 Route::get('6yt5fr5t6', 'ChartController@statusOrder')->name('grafik.transaksi.statusOrder');
 
 Route::get('/detailDist/{id_distributor}','Admin\WarehouseController@detailDist');
 Route::get('/detailOrder/{id_distributor}','Admin\WarehouseController@detailOrder');
 
 Route::get('/autocomplete-search', [ProductController::class, 'autocompleteSearch']);
+// ProductOrder
+Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->name('cariDataProduct');
+Route::get('/cariDataDistributor', 'Admin\ProductOrderController@dataAjaxDistributor')->name('cariDataDistributor');
+Route::post('/AddMoreOrder', 'Admin\ProductOrderController@AddMoreOrder')->name('AddMoreOrder');
+Route::post('/CheckOutAll', 'Admin\ProductOrderController@CheckOutAll')->name('CheckOutAll');
 
 Route::prefix('admin')
 ->namespace('Admin')

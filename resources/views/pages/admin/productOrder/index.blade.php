@@ -28,7 +28,11 @@
                 </div>
             </div>
         </div>
-
+@if ($totalOrder > 0)
+    <?php  $totalOrder = $totalOrder;?>
+@else
+    <?php $totalOrder = 1; ?>
+@endif
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
@@ -38,12 +42,12 @@
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks ({{$totalSelesaiOrder}} selesai)</div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ round(($totalPendingOrder-$totalSelesaiOrder)/$totalOrder*100 ,2)}}%</div>
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ round(($totalSelesaiOrder*100)/$totalOrder,2)}}%</div>
                                 </div>
                                 <div class="col">
                                     <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ round(($totalPendingOrder-$totalSelesaiOrder)/$totalOrder*100 ,2)}}%"
-                                            aria-valuenow="{{ round(($totalPendingOrder-$totalSelesaiOrder)/$totalOrder*100 ,2)}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ round(($totalSelesaiOrder*100)/$totalOrder,2)}}%"
+                                            aria-valuenow="{{ round(($totalSelesaiOrder*100)/$totalOrder,2)}}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>

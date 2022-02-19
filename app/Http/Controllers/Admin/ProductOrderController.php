@@ -24,8 +24,8 @@ class ProductOrderController extends Controller
     {
         if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG") {
             # code...
-            $items = DB::table('v_order_products_user')->get();
-            $totalOrder = DB::table('v_order_products_user')->count();
+            $items = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->get();
+            $totalOrder = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->count();
             $totalPendingOrder = DB::table('v_order_products_user')->where('status_order','Request')->count();
             $totalSelesaiOrder = DB::table('v_order_products_user')->where('status_order','Selesai')->count();
             return view('pages.admin.productOrder.index',[
@@ -36,11 +36,12 @@ class ProductOrderController extends Controller
             ]);
         }elseif(Auth::user()->roles == "USER"){
             $saya = Auth::user()->cabang;
+
             $items = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->get();
-            $totalOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->count();
+            $totalOrder = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->where('cabang',Auth::user()->cabang)->count();
             $totalPendingOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Request')->count();
             $totalSelesaiOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Selesai')->count();
-            
+       
             return view('pages.admin.productOrder.index',[
                 'items' => $items,
                 'totalOrder' => $totalOrder,
@@ -120,7 +121,7 @@ class ProductOrderController extends Controller
                 $save->id_product = $cariId->id_product;
                 $save->id_distributor = $cariId->id_distributor;
                 $save->harga_order = $cariId->harga;
-                $save->status_order = 'Request';
+                $save->status_order = 'Keranjang';
                 $save->id_user = Auth::user()->id;
                 $save->nomor_order = $nomor_order;
                 $save->save();
@@ -194,7 +195,14 @@ class ProductOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request']);
+
+        return redirect()->route('productOrder.index');
+    }
+    public function CheckOutAll(Request $request){
+        DB::table('product_orders')->where('nomor_order',$request->nomor_order)->where('status_order','Keranjang')->update(['status_order' => 'Request']);
+
+        return redirect()->route('productOrder.index');
     }
 
     /**

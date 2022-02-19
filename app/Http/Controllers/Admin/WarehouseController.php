@@ -25,6 +25,7 @@ class WarehouseController extends Controller
 
         $cabangs = DB::table('v_order_products_user')
         ->select(array('*',DB::raw('COUNT(id_product_order) as orderan')))
+        // ->where('status_order', '!=','Keranjang')
         ->groupBy('cabang')->get();
         
         return view('pages.admin.warehouse.index',[
