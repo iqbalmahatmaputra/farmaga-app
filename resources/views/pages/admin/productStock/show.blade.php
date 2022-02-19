@@ -113,28 +113,31 @@
                     <!-- Card Header - Accordion -->
                     <a href="#PBF" class="d-block card-header py-3" data-toggle="collapse" role="button"
                         aria-expanded="true" aria-controls="PBF">
-                        <h6 class="m-0 font-weight-bold text-primary">Harga per PBF</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Order per Cabang</h6>
                     </a>
                     <!-- Card Content - Collapse -->
                     <div class="collapse show" id="PBF">
                         <div class="card-body">
-                            <p class="m-2">Ini adalah harga saat ini pada setiap <strong>PBF</strong>.</p>
+                            <p class="m-2">Ini adalah orderan saat ini pada setiap <strong>Cabang</strong>.</p>
                             <table class="table table-border">
                                 <thead>
                                     <tr>
-                                        <th>Distributor</th>
+                                        <th>Cabang</th>
                                         <th>Jumlah</th>
+                                        <th>Total Harga</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    @forelse ($harga_items as $item)
+<?php $total_harga = 0; $total_item = 0; ?>
+                                    @forelse ($order_items as $item)
 
                                     <tr>
-                                        <td>{{$item->nama_distributor}}</td>
-                                        <td>@currency($item->harga_order)</td>
-
+                                        <td>{{$item->cabang}}</td>
+                                        <td>{{$item->jumlah_order}}</td>
+                                        <td>@currency($item->total)</td>
+<?php $total_harga += $item->total; 
+        $total_item += $item->jumlah_order;?>
                                     </tr>
                                     @empty
                                     <tr>
@@ -143,6 +146,13 @@
                                     @endforelse
 
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th><strong>Total</strong></th>
+                                        <th><strong>{{$total_item}}</strong></th>
+                                        <th><strong>@currency($total_harga)</strong></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

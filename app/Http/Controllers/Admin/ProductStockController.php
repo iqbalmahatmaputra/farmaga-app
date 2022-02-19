@@ -92,10 +92,13 @@ class ProductStockController extends Controller
         $items = DB::table('v_stock_products')->where('id_product',$id)->orderBy('created_at','desc')->get();
         $pbf_items = DB::table('v_stock_products')->selectRaw('sum(qty_stock) as jumlahStok,id_product,id_distributor, nama_product,nama_distributor')->where('id_product',$id)->groupBy('nama_distributor')->get();
         $harga_items = DB::table('v_order_products_user')->where('id_product',$id)->groupBy('nama_distributor')->get();
+        // Cek total pengeluaran
+        $order_items = DB::table('v_order_products_user')->selectRaw('cabang, sum(qty) as jumlah_order, sum(qty*harga_order) as total')->where('id_product',$id)->where('status_order','!=','Keranjang')->groupBy('cabang')->get();
+
         $products = $items[0]->nama_product;
         $title = "Product Details for ".$products;
 
-        return view('pages.admin.productStock.show',compact('items','title','pbf_items','harga_items'));
+        return view('pages.admin.productStock.show',compact('items','title','pbf_items','harga_items','order_items'));
     }
 
     /**
