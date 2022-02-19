@@ -8,7 +8,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Product</h1>
-        <a href="{{route('product.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        <a href="{{route('productStock.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
     </div>
 
     <div class="row">
@@ -21,39 +21,32 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Satuan</th>
+                                    <th>Product</th>
+                                    <!-- <th>Distributor</th> -->
+                                    <th>Jumlah Stok</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Satuan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </tfoot>
+                           
                             <tbody>
                                 <?php $no =1;?>
                                 @forelse ($items as $item)
                                 <tr>
                                     <td>{{$no++}}</td>
                                     <td>{{ucwords($item->nama_product)}}</td>
-                                    <td>{{$item->satuan_product}}</td>
-                                    <td>
-                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
-                                        <form action="{{route('product.destroy',$item->id_product)}}"
-                                            method="post" class="d-inline">
-                                            @csrf
-                                            @method('delete')
-                                            <button class="btn btn-danger">
-                                                <i class="fa fa-fw fa-trash"></i>
-                                            </form>
+                                    <!-- <td>{{ucwords($item->nama_distributor)}}</td> -->
+                                    <td>{{$item->jumlahStok}}</td>
+                                    <td class="text-center">
+                                    <a href="{{route('productStock.show',$item->id_product)}}" class="btn btn-info btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-info-circle"></i>
+                                        </span>
+                                        <span class="text">History Stock</span>
+                                    </a>
                                     </td>
 
                                     </button>

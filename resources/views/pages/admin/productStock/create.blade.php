@@ -37,7 +37,7 @@
 
                 <div class="card shadow">
                     <div class="card-body">
-                        <form action="{{ route('AddMoreOrder') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('AddMoreStock') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             @if ($errors->any())
@@ -59,17 +59,26 @@
 
                             <table class="table table-bordered" id="dynamicTable">
                                 <tr>
-                                    <th>Nama</th>
+                                    <th>Product</th>
+                                    <th>Distributor</th>
                                     <th>Jumlah</th>
                                     <th>Action</th>
                                 </tr>
                                 <tr>
-                                    <!-- <td><input type="text" name="addmore[0][id_product_price]" placeholder="Masukkan Nama Produk"
-                                            class="form-control" /></td> -->
                                             <td>
-                                <select class="form-control itemNameProduct" name="id_product_price[]"></select>
+                                <select class="form-control itemNameProduct" name="id_product[]"></select>
                                             </td>
-                                    <td><input type="number" name="qty[]" placeholder="Masukkan Jumlah"
+                                       
+                                                  
+                                              <td>
+                                  <select class="form-control" name="id_distributor[]">
+                             @foreach ($items as $item)
+                               <option value="{{$item->id_distributor}}">{{$item->nama_distributor}}</option>
+                             @endforeach
+                           </select>
+                                              </td>
+                                      
+                                    <td><input type="number" name="qty_stock[]" placeholder="Masukkan Jumlah"
                                             class="form-control" /></td>
                                     <td><button type="button" name="add" id="add" class="btn btn-success">Tambah Item</button></td>
                                 </tr>
@@ -87,19 +96,18 @@
 <script type="text/javascript">
    
     var i = 0;
-       
+   
     $("#add").click(function(){
    
         ++i;
    
-        // $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="addmore['+i+'][id_product_price]"></select></td><td><input type="number" name="addmore['+i+'][qty]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
-        $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="id_product_price[]"></select></td><td><input type="number" name="qty[]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Batalkan Item</button></td></tr>');
+        $("#dynamicTable").append('<tr><td><select class="form-control itemNameProduct" name="id_product[]"></select></td> <td> <select class="form-control" name="id_distributor[]"> @foreach ($items as $item) <option value="{{$item->id_distributor}}">{{$item->nama_distributor}}</option> @endforeach </select> </td><td><input type="number" name="qty_stock[]" placeholder="Masukkan Jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Batalkan Item</button></td></tr>');
     
         $('.itemNameProduct').select2({
         placeholder: 'Pilih Produk',
         width: '100%',
         ajax: {
-            url: "{{ route('cariDataProduct') }}",
+            url: "{{ route('cariDataStock') }}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
@@ -107,7 +115,7 @@
                     results: $.map(data, function (item) {
                         return {
                             text: item.nama,
-                            id: item.id_product_price
+                            id: item.id_product
                         }
                     })
                 };
@@ -137,7 +145,7 @@
         placeholder: 'Pilih Produk',
         width: '100%',
         ajax: {
-            url: "{{ route('cariDataProduct') }}",
+            url: "{{ route('cariDataStock') }}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
@@ -145,7 +153,7 @@
                     results: $.map(data, function (item) {
                         return {
                             text: item.nama,
-                            id: item.id_product_price
+                            id: item.id_product
                         }
                     })
                 };

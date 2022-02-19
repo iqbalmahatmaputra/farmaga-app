@@ -24,7 +24,7 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <!-- <th>No</th> -->
+                                    <th>No</th>
                                     <th>Nama Produk</th>
                                     <th>Distributor</th>
                                     <th>Harga</th>
@@ -33,7 +33,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <!-- <th>No</th> -->
+                                    <th>No</th>
                                     <th>Nama Produk</th>
                                     <th>Distributor</th>
                                     <th>Harga</th>
@@ -41,9 +41,10 @@
                                 </tr>
                             </tfoot>
                             <tbody>
+                            <?php $no =1;?>
                                 @forelse ($items as $item)
                                 <tr>
-                            
+                                    <td>{{$no++}}</td>
                                     <td>{{$item->nama_product}}</td>
                                     <td>{{$item->nama_distributor}}</td>
                                     <td>@currency($item->harga)</td>

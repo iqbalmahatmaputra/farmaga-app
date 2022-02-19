@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function create()
     {
         $items = DB::table('products')
-        ->select('satuan_product')->get();
+        ->select('satuan_product')->distinct()->get();
         return view('pages.admin.product.create',[
             'items' => $items
         ]);

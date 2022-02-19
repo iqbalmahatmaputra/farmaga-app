@@ -47,7 +47,15 @@
                                 <label for="product">Satuan product</label>
                                 <!-- <input type="search" name="satuan_product" class="form-control" placeholder="satuan product" value="{{old('satuan_product')}}"> -->
 
-                                <select class="itemName form-control" name="satuan_product"></select>
+                                <select class="form-control" name="satuan_product">
+                           
+
+                                  @forelse ($items as $item)
+                                    <option value="{{old('satuan_product')}}">{{$item->satuan_product}}</option>
+                                  @empty
+                                    <option value="{{old('satuan_product')}}">Belum ada satuan</option>
+                                  @endforelse
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-block">Simpan</button>
@@ -63,68 +71,6 @@
   <input id="tags">
 </div> -->
 </div>
-<script type="text/javascript">
-var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-    
-    $.ajaxSetup({
-        headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
-    });
-$('.itemName').select2({
-  placeholder: 'Pilih Satuan',
-  tags: true,
-  ajax: {
-    url: '/cariData',
-    dataType: 'json',
-    delay: 250,
-    processResults: function (data) {
-      return {
-        results:  $.map(data, function (item) {
-              return {
-                  text: item.satuan_product,
-                  id: item.satuan_product,
-                  newOption: true,
-              }
-          })
-      };
-    },
-    cache: true
-  }
-  
-});
-</script> 
-<!-- 
-<script type="text/javascript">
-   
-  $('.cari').select2({
-    placeholder: 'Cari...',
-    ajax: {
-      url: '{{route('cariData')}}',
-      dataType: 'json',
-      delay: 250,
-      processResults: function (data) {
-        return {
-          results:  $.map(data, function (item) {
-            return {
-              text: item.email,
-              id: item.id
-            }
-          })
-        };
-      },
-      cache: true
-    }
-  });
-
-</script> -->
-
-<!-- <script>
-  $( function() {
-   var data = $items->satuan_product;
-    $( "#tags" ).autocomplete({
-      source:data
-    });
-  } );
-  </script> -->
 
 <!-- /.container-fluid -->
 @endsection

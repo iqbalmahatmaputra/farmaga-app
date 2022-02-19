@@ -15,7 +15,7 @@
                 <tr>
                     <th>No</th>
                     <th>Nomor Order</th>
-                    <th>Produk-Distributor</th>
+                    <th>Distributor-Produk</th>
                     <th>Jumlah</th>
                     <th>User</th>
                     <th>Aksi</th>
@@ -33,7 +33,7 @@
                 <tr>
                     <td><?= $no++; ?></td>
                     <td>{{$item->nomor_order}}</td>
-                    <td>{{$item->nama_product}} - {{$item->nama_distributor}}</td>
+                    <td>{{$item->nama_distributor}} - {{$item->nama_product}}</td>
                     <td>{{$item->qty}}</td>
                     <td>{{$item->name_user}}</td>
                     <td>
