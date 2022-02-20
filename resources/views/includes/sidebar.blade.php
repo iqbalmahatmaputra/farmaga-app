@@ -39,8 +39,8 @@
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Transaction Data</h6>
                   <a class="collapse-item" href="{{route ('warehouse.index')}}">Dashboard</a>
+                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Order from Cabang</a>
                   <a class="collapse-item" href="{{route ('productStock.index')}}">Product Stock</a>
-                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Order PBF</a>
 
               </div>
           </div>
@@ -57,6 +57,7 @@
                   <a class="collapse-item" href="{{route ('distributor.index')}}">Distributor List</a>
                   <a class="collapse-item" href="{{route ('product.index')}}">Product List</a>
                   <a class="collapse-item" href="{{route ('productPrice.index')}}">Product Price List</a>
+                  <a class="collapse-item" href="{{route ('cabang.index')}}">Cabang List</a>
               </div>
           </div>
       </li>
@@ -92,7 +93,7 @@
           <div id="collapsePegawai" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Activity</h6>
-                  <a class="collapse-item" href="{{route ('productOrder.create')}}">Order Products</a>
+                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Order Products List</a>
                   <a class="collapse-item" href="{{route ('productOrder.index')}}">Confirmation Products</a>
               </div>
           </div>

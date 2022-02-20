@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Product;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Product;
 use Illuminate\Support\Str;
 use DB;
 class ProductController extends Controller

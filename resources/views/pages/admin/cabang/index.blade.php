@@ -7,8 +7,8 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Distributor</h1>
-        <a href="{{route('distributor.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        <h1 class="h3 mb-0 text-gray-800">Cabang</h1>
+        <a href="{{route('product.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
     </div>
 
     <div class="row">
@@ -17,7 +17,7 @@
         <div class="col-xl-12 col-md-12 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Distributor</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Cabang</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -26,8 +26,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>Alamat</th>
-                                    <th>No Hp</th>
+                                    <!-- <th>Lokasi</th> -->
+                                    <th>Limit perHari</th>
+                                    <th>Limit perBulan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -35,28 +36,30 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama</th>
-                                    <th>Alamat</th>
-                                    <th>No Hp</th>
+                                    <!-- <th>Lokasi</th> -->
+                                    <th>Limit perHari</th>
+                                    <th>Limit perBulan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                            <?php $no =1;?>
+                                <?php $no =1;?>
                                 @forelse ($items as $item)
                                 <tr>
                                     <td>{{$no++}}</td>
-                                    <td>{{$item->nama_distributor}}</td>
-                                    <td>{{$item->alamat_distributor}}</td>
-                                    <td>{{$item->no_hp_distributor}}</td>
+                                    <td>{{ucwords($item->nama_cabang)}}</td>
+                                    <!-- <td>{{$item->lokasi}}</td> -->
+                                    <td>@currency($item->limit_perhari)</td>
+                                    <td>@currency($item->limit_perbulan)</td>
                                     <td>
-                                    <a href="{{route('distributor.edit',$item->id_distributor)}}" title="Edit Data" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
-                                        <form action="{{route('distributor.destroy',$item->id_distributor)}}"
+                                    <a href="{{route('cabang.edit',$item->id_cabang)}}" title="Edit Data" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
+                                        <!-- <form action="{{route('product.destroy',$item->id_cabang)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger" title="Delete Data">
+                                            <button class="btn btn-danger">
                                                 <i class="fa fa-fw fa-trash"></i>
-                                            </form>
+                                            </form> -->
                                     </td>
 
                                     </button>

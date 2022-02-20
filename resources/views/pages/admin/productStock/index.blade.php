@@ -43,7 +43,7 @@
                                     <td class="text-center">
                                     <a href="{{route('productStock.show',$item->id_product)}}" class="btn btn-info btn-icon-split">
                                         <span class="icon text-white-50">
-                                            <i class="fas fa-info-circle"></i>
+                                            <i class="fas fa-history"></i>
                                         </span>
                                         <span class="text">History Stock</span>
                                     </a>

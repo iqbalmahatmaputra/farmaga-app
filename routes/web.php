@@ -45,13 +45,14 @@ Route::prefix('admin')
     Route::get('/','DashboardController@index')
     ->name('dashboard');
 
-    Route::resource('user','UserController');
-    Route::resource('warehouse','WarehouseController');
+    Route::resource('cabang','CabangController');
     Route::resource('distributor','DistributorController');
     Route::resource('product','ProductController');
     Route::resource('productPrice','ProductPriceController');
     Route::resource('productOrder','ProductOrderController');
     Route::resource('productStock','ProductStockController');
+    Route::resource('user','UserController');
+    Route::resource('warehouse','WarehouseController');
 
     
 

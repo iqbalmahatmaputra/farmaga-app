@@ -8,6 +8,8 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Product Order</h1>
+        <a href="{{route('productOrder.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+
     </div>
     <!-- Card Cabangs -->
     <div class="row">
@@ -101,7 +103,7 @@
                             cellspacing="0">
                             <thead>
                                 <tr>
-                                    <!-- <th>No</th> -->
+                                    <th>No</th>
                                     <th>Tanggal Order</th>
                                     <th>Faktur Order</th>
                                     <th>Pro / Dist</th>
@@ -112,27 +114,21 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <!-- <th>No</th> -->
-                                    <th>Tanggal Order</th>
-                                    <th>Faktur Order</th>
-                                    <th>Pro / Dist</th>
-                                    <th>Harga</th>
-                                    <th>Qty</th>
-                                    <th>Cabang</th>
-                                    <th>Status Order</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </tfoot>
+                           
                             <tbody>
+                            <?php $no =1; $total=0;?>
                                 @forelse ($items as $item)
+                                <?php $total += $item->qty; ?>
                                 <tr>
-
+                                    <td>{{$no++}}</td>
                                     <td>{{$item->created_at}}</td>
                                     <td>{{$item->nomor_order}}</td>
                                     <td>{{$item->nama_product}} / {{$item->nama_distributor}}</td>
+                                    @if (Auth::user()->roles == "USER" )
+                                        <td>Tidak dapat dilihat</td>
+                                    @else
                                     <td>@currency($item->harga_order)</td>
+                                    @endif
                                     <td>{{$item->qty}}</td>
                                     <td>{{$item->cabang}}</td>
                                     @if ($item->status_order == 'Request')
@@ -159,7 +155,7 @@
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger">
+                                            <button class="btn btn-danger" title="Delete Data">
                                                 <i class="fa fa-fw fa-trash"></i>
                                             </form>
                                         @endif
@@ -173,6 +169,19 @@
                                 </tr>
                                 @endforelse
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal Order</th>
+                                    <th>Faktur Order</th>
+                                    <th>Pro / Dist</th>
+                                    <th>Harga</th>
+                                    <th>{{$total}}</th>
+                                    <th>Cabang</th>
+                                    <th>Status Order</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

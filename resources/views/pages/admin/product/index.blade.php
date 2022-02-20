@@ -23,15 +23,15 @@
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Satuan</th>
-                                    <th>Aksi</th>
+                                    <th width="150px">Aksi</th>
                                 </tr>
                             </thead>
                             <tfoot>
-                                <tr>
+                                <tr class="text-center">
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Satuan</th>
@@ -45,15 +45,21 @@
                                     <td>{{$no++}}</td>
                                     <td>{{ucwords($item->nama_product)}}</td>
                                     <td>{{$item->satuan_product}}</td>
-                                    <td>
-                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info"><i class="fa fa-pencil-alt"></i></a>
+                                    <td class="d-flex justify-content-around">
+                                    <a href="{{route('productStock.show',$item->id_product)}}" class="btn btn-primary btn-icon-split" title="History Product">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-history"></i>
+                                        </span>
+                                    </a>
+                                    <a href="{{route('product.edit',$item->id_product)}}" class="btn btn-info" title="Edit Product"><i class="fa fa-pencil-alt"></i></a>
                                         <form action="{{route('product.destroy',$item->id_product)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger">
+                                            <button class="btn btn-danger" title="Delete Product">
                                                 <i class="fa fa-fw fa-trash"></i>
                                             </form>
+                                            
                                     </td>
 
                                     </button>
