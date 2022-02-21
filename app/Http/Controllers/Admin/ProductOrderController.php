@@ -24,7 +24,10 @@ class ProductOrderController extends Controller
     {
         if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG") {
             # code...
-            $items = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->get();
+            $items = DB::table('v_order_user_cabang')->where('status_order', 'Request')
+            ->selectRaw('sum(qty) as qty,sum(qty*harga_order) as harga_order,id_product,id_distributor, nama_product,nama_distributor ,created_at ,nomor_order,cabang,status_order,limit_perhari,limit_perbulan')
+            ->groupBy('nomor_order')
+            ->get();
             $totalOrder = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->count();
             $totalPendingOrder = DB::table('v_order_products_user')->where('status_order','Request')->count();
             $totalSelesaiOrder = DB::table('v_order_products_user')->where('status_order','Selesai')->count();
@@ -172,7 +175,20 @@ class ProductOrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $nomor = str_replace("-","/",$id);
+            $items = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')
+            ->where('nomor_order',$nomor)
+            ->get();
+            $title = "List Details for ".$nomor;
+$this->getOrderData($nomor);
+        return view('pages.admin.productOrder.show',compact('items','title','id'));
+    }
+    public function getOrderData($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')
+            ->where('nomor_order',$nomor)
+            ->get();
+        return json_encode(array('data'=>$items));
     }
 
     /**

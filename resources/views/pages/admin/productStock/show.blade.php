@@ -30,7 +30,7 @@
                     <div class="collapse show" id="PBF">
                         <div class="card-body">
                             <p class="m-2">Ini adalah jumlah stok saat ini pada setiap <strong>PBF</strong>.</p>
-                            <table class="table table-border">
+                            <table class="table table-bordered display-responsive">
                                 <thead>
                                     <tr>
                                         <th>Distributor</th>
@@ -74,7 +74,7 @@
                     <div class="collapse show" id="CBG">
                         <div class="card-body">
                             <p class="m-2">Ini adalah harga saat ini pada setiap <strong>PBF</strong>.</p>
-                            <table class="table table-border">
+                            <table class="table table-bordered display-responsive">
                                 <thead>
                                     <tr>
                                         <th>Distributor</th>
@@ -119,7 +119,7 @@
                     <div class="collapse show" id="PBF">
                         <div class="card-body">
                             <p class="m-2">Ini adalah orderan saat ini pada setiap <strong>Cabang</strong>.</p>
-                            <table class="table table-border">
+                            <table class="table table-bordered display-responsive">
                                 <thead>
                                     <tr>
                                         <th>Cabang</th>
@@ -167,7 +167,7 @@
                     <div class="collapse show" id="CBG">
                         <div class="card-body">
                             <p class="m-2">Ini adalah jumlah stok saat ini pada setiap <strong>PBF</strong>.</p>
-                            <table class="table table-border">
+                            <table class="table table-bordered display-responsive">
                                 <thead>
                                     <tr>
                                         <th>Distributor</th>
@@ -214,31 +214,34 @@
 
                 </div>
                 <div class="card-body">
-                    <table class="table table-border">
-                        <thead>
-                            <tr>
-                                <th>Tanggal</th>
-                                <th>Jumlah</th>
-                                <th>Distributor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive">
 
-                            @forelse ($items as $item)
-
-                            <tr>
-                                <th>{{$item->created_at}}</th>
-                                <th>{{$item->qty_stock}}</th>
-                                <th>{{$item->nama_distributor}}</th>
-                            </tr>
-                            @empty
-                            <tr>
-
-                                <th colspan="2">Data Kosong</th>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                        <table class="table table-bordered display-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Jumlah</th>
+                                    <th>Distributor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    
+                                @forelse ($items as $item)
+    
+                                <tr>
+                                    <th>{{$item->created_at}}</th>
+                                    <th>{{$item->qty_stock}}</th>
+                                    <th>{{$item->nama_distributor}}</th>
+                                </tr>
+                                @empty
+                                <tr>
+    
+                                    <th colspan="2">Data Kosong</th>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -39,7 +39,7 @@
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Transaction Data</h6>
                   <a class="collapse-item" href="{{route ('warehouse.index')}}">Dashboard</a>
-                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Order from Cabang</a>
+                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Branch Orders List</a>
                   <a class="collapse-item" href="{{route ('productStock.index')}}">Product Stock</a>
 
               </div>

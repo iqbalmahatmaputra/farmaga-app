@@ -32,6 +32,7 @@ Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->
 Route::get('/cariDataDistributor', 'Admin\ProductOrderController@dataAjaxDistributor')->name('cariDataDistributor');
 Route::post('/AddMoreOrder', 'Admin\ProductOrderController@AddMoreOrder')->name('AddMoreOrder');
 Route::post('/CheckOutAll', 'Admin\ProductOrderController@CheckOutAll')->name('CheckOutAll');
+Route::get('/getOrderData/{id}','Admin\ProductOrderController@getOrderData');
 
 // ProductStock
 Route::post('/AddMoreStock', 'Admin\ProductStockController@AddMoreStock')->name('AddMoreStock');
