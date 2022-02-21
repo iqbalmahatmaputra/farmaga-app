@@ -35,9 +35,7 @@ Route::post('/CheckOutAll', 'Admin\ProductOrderController@CheckOutAll')->name('C
 Route::get('/getOrderData/{id}','Admin\ProductOrderController@getOrderData');
 Route::get('/getOrderDataProses/{id}','Admin\ProductOrderController@getOrderDataProses');
 Route::get('/updateToProses/{id}','Admin\ProductOrderController@updateToProses');
-Route::get('/updateToProses/{id}','Admin\ProductOrderController@updateToProses1');
 Route::get('/updateToProsesBatal/{id}','Admin\ProductOrderController@updateToProsesBatal');
-Route::get('/updateToProsesBatal/{id}','Admin\ProductOrderController@updateToProsesBatal1');
 
 // ProductStock
 Route::post('/AddMoreStock', 'Admin\ProductStockController@AddMoreStock')->name('AddMoreStock');

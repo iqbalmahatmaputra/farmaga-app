@@ -180,8 +180,9 @@ class ProductOrderController extends Controller
             ->where('nomor_order',$nomor)
             ->get();
             $title = "List Details for ".$nomor;
+            $cabang = $items[0]->cabang;
 $this->getOrderData($nomor);
-        return view('pages.admin.productOrder.show',compact('items','title','id'));
+        return view('pages.admin.productOrder.show',compact('items','title','id','cabang'));
     }
     public function getOrderData($id){
         $nomor = str_replace("-","/",$id);
@@ -211,18 +212,13 @@ $this->getOrderData($nomor);
     {
         //
     }
-    public function updateToProses1($id){
-        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Proses']);
-        return json_encode(array('statusCode'=>200));
-    }
+   
     public function updateToProses($id){
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Proses']);
         return json_encode(array('statusCode'=>200));
     }
-    public function updateToProsesBatal1($id){
-        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request']);
-        return json_encode(array('statusCode'=>200));
-    }
+
+    
     public function updateToProsesBatal($id){
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request']);
         return json_encode(array('statusCode'=>200));

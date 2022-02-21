@@ -50,7 +50,11 @@ class ProductStockController extends Controller
         //
     }
     public function AddMoreStock(Request $request){
-        
+        $today = date('Y.m.d');
+        $hariOrder = date('Y-m-d');
+        $satu = 1;
+        $nomorUrut = \DB::table('product_stocks')->where('nomor_order_stock','LIKE',"%$today%")->distinct()->count('nomor_order_stock');
+        $nomor_order_stock = sprintf("%03s", abs($nomorUrut + $satu))."/"."GDG"."/".$today;
         $data = array();
 
         $hitung = count($request->id_product);
@@ -62,6 +66,7 @@ class ProductStockController extends Controller
                 $save->qty_stock = $request->qty_stock[$i];
                 $save->id_product = $request->id_product[$i];
                 $save->id_distributor = $request->id_distributor[$i];
+                $save->nomor_order_stock = $nomor_order_stock;
                 $save->save();
             }
         

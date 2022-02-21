@@ -14,19 +14,17 @@
     </div>
 
     <div class="row">
-
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-12 col-md-12 mb-4">
-
-            <div class="d-flex justify-content-around">
-                <!-- Card -->
-                <div class="card border-left-primary shadow h-100 py-2">
+    <div class="col-xl-6 col-md-6 col-xs-12 mb-4">
+               <!-- Card -->
+               <div class="card border-left-primary shadow h-100 py-2">
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                     aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Order Per Item</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">List Order from {{$cabang}}</h6>
                 </a>
                 <div class="collapse show" id="collapseCardExample">
-
+                    <div class="container mt-3">
+                        <p>Silahkan tekan tombol Proses untuk memproses orderan dari <strong>{{$cabang}}</strong></p>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
@@ -49,11 +47,17 @@
                 </div>
             </div>
                 <!-- End Card -->
-                    <!-- Card -->
-                    <div class="card border-left-primary shadow h-100 py-2">
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-6 col-md-6 col-xs-12 mb-4">
+
+
+
+            <!-- Card -->
+            <div class="card border-left-success shadow h-100 py-2">
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                     aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Order Per Item</h6>
+                    <h6 class="m-0 font-weight-bold text-success">List Order from {{$cabang}}</h6>
                 </a>
                 <div class="collapse show" id="collapseCardExample">
 
@@ -78,151 +82,152 @@
                     </div>
                 </div>
             </div>
-                <!-- End Card -->
-                
-            </div>
+            <!-- End Card -->
+
 
 
         </div>
+       
     </div>
 
 
 </div>
 
 <script type="text/javascript">
-   
     $(document).ready(function () {
-   
+
         loadDataRequest();
         loadDataProses();
-//    Button Proses 
-$(document).on("click", ".proses", function() { 
-        var $ele = $(this).parent().parent();
-        var id= $(this).val();
-        var url = "{{url('updateToProses')}}";
-        var uurl = url+"/"+id;
-     
-		$.ajax({
-			url: uurl,
-			type: "GET",
-			cache: false,
-			data:{
-				_token:'{{ csrf_token() }}'
-			},
-			success: function(dataResult){
-				var dataResult = JSON.parse(dataResult);
-				if(dataResult.statusCode==200){
-					$ele.fadeOut().remove();
-				}
-			}
-		});
-        loadDataRequest();
-        loadDataProses();
-        
-    });
-// End Button Proses
-// Button Batalkan
-$(document).on("click", ".batal", function() { 
-        var $ele = $(this).parent().parent();
-        var id= $(this).val();
-        var url = "{{url('updateToProsesBatal')}}";
-        var uurl = url+"/"+id;
-     
-		$.ajax({
-			url: uurl,
-			type: "GET",
-			cache: false,
-			data:{
-				_token:'{{ csrf_token() }}'
-			},
-			success: function(dataResult){
-				var dataResult = JSON.parse(dataResult);
-				if(dataResult.statusCode==200){
-					$ele.fadeOut().remove();
-				}
-			}
-		});
-        loadDataRequest();
-        loadDataProses();
-        
-    });
-// End Button Batal
+        //    Button Proses 
+        $(document).on("click", ".proses", function () {
+            var $ele = $(this).parent().parent();
+            var id = $(this).val();
+            var url = "{{url('updateToProses')}}";
+            var uurl = url + "/" + id;
+
+            $.ajax({
+                url: uurl,
+                type: "GET",
+                cache: false,
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        $ele.fadeOut().remove();
+                    }
+                }
+            });
+            loadDataRequest();
+            loadDataProses();
+
+        });
+        // End Button Proses
+        // Button Batalkan
+        $(document).on("click", ".batal", function () {
+            var $ele = $(this).parent().parent();
+            var id = $(this).val();
+            var url = "{{url('updateToProsesBatal')}}";
+            var uurl = url + "/" + id;
+
+            $.ajax({
+                url: uurl,
+                type: "GET",
+                cache: false,
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (dataResult) {
+                    var dataResult = JSON.parse(dataResult);
+                    if (dataResult.statusCode == 200) {
+                        $ele.fadeOut().remove();
+                    }
+                }
+            });
+            loadDataRequest();
+            loadDataProses();
+
+        });
+        // End Button Batal
         // Ajax Show Request by Nomor Order
-    function loadDataRequest(){
+        function loadDataRequest() {
 
-        $.ajax({
-        url: "{{url('getOrderData/'.$id)}}",
-        type: "get",
-        data: {
-            _token: '{{ csrf_token() }}'
-        },
-        cache: false,
-        dataType: 'json',
-        success: function (dataResult) {
-            console.log(dataResult);
-            var resultData = dataResult.data;
-            var bodyData = '';
-            var i = 1;
-            $.each(resultData, function (index, row) {
-                
-                bodyData += "<tr>"
-                bodyData += "<td>" + i++ + "</td><td>" + row.nama_product +
-                    "</td><td>" + row.nama_distributor + "</td><td>" + row.qty +
-                    "</td>" +
-                    "<td>" + row.harga_order +
-                    "</td><td><button class='btn btn-primary proses' value='" + row.id_product_order +"'>Proses</button>" +
-                    "</td>";
-                bodyData += "</tr>";
+            $.ajax({
+                url: "{{url('getOrderData/'.$id)}}",
+                type: "get",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                cache: false,
+                dataType: 'json',
+                success: function (dataResult) {
+                    console.log(dataResult);
+                    var resultData = dataResult.data;
+                    var bodyData = '';
+                    var i = 1;
+                    $.each(resultData, function (index, row) {
 
-            })
-            if(bodyData){
-                $("#bodyData").empty();
-                
-                $("#bodyData").append(bodyData);
-            }else{
-                $("#bodyData").append(bodyData);
-            }
+                        bodyData += "<tr>"
+                        bodyData += "<td>" + i++ + "</td><td>" + row.nama_product +
+                            "</td><td>" + row.nama_distributor + "</td><td>" + row.qty +
+                            "</td>" +
+                            "<td>" + row.harga_order +
+                            "</td><td><button class='btn btn-primary proses' value='" + row
+                            .id_product_order + "'>Proses</button>" +
+                            "</td>";
+                        bodyData += "</tr>";
+
+                    })
+                    if (bodyData) {
+                        $("#bodyData").empty();
+
+                        $("#bodyData").append(bodyData);
+                    } else {
+                        $("#bodyData").append(bodyData);
+                    }
+                }
+            });
         }
-    });
-    }
-    
-     
-function loadDataProses(){
 
-    $.ajax({
-        url: "{{url('getOrderDataProses/'.$id)}}",
-        type: "get",
-        data: {
-            _token: '{{ csrf_token() }}'
-        },
-        cache: false,
-        dataType: 'json',
-        success: function (dataResult) {
-            console.log(dataResult);
-            var resultData = dataResult.data;
-            var bodyData2 = '';
-            var i = 1;
-            $.each(resultData, function (index, row) {
 
-                bodyData2 += "<tr>"
-                bodyData2 += "<td>" + i++ + "</td><td>" + row.nama_product +
-                "</td><td>" + row.nama_distributor + "</td><td>" + row.qty +
-                    "</td>" +
-                    "<td>" + row.harga_order +
-                    "</td><td><button class='btn btn-warning batal' value='" + row.id_product_order +"'>Batal</button>" +
-                    "</td>";
-                bodyData2 += "</tr>";
+        function loadDataProses() {
 
-            })
-            if(bodyData2){
-                $("#bodyData2").empty();
-                $("#bodyData2").append(bodyData2);
-            }else{
-                $("#bodyData2").append(bodyData2);
-            }
+            $.ajax({
+                url: "{{url('getOrderDataProses/'.$id)}}",
+                type: "get",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                cache: false,
+                dataType: 'json',
+                success: function (dataResult) {
+                    console.log(dataResult);
+                    var resultData = dataResult.data;
+                    var bodyData2 = '';
+                    var i = 1;
+                    $.each(resultData, function (index, row) {
+
+                        bodyData2 += "<tr>"
+                        bodyData2 += "<td>" + i++ + "</td><td>" + row.nama_product +
+                            "</td><td>" + row.nama_distributor + "</td><td>" + row.qty +
+                            "</td>" +
+                            "<td>" + row.harga_order +
+                            "</td><td><button class='btn btn-warning batal' value='" + row
+                            .id_product_order + "'>Batal</button>" +
+                            "</td>";
+                        bodyData2 += "</tr>";
+
+                    })
+                    if (bodyData2) {
+                        $("#bodyData2").empty();
+                        $("#bodyData2").append(bodyData2);
+                    } else {
+                        $("#bodyData2").append(bodyData2);
+                    }
+                }
+            });
         }
-    });
-}
     });
 
 </script>
