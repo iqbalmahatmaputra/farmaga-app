@@ -28,7 +28,7 @@ class ProductOrderController extends Controller
             ->selectRaw('sum(qty) as qty,sum(qty*harga_order) as harga_order,id_product,id_distributor, nama_product,nama_distributor ,created_at ,nomor_order,cabang,status_order,limit_perhari,limit_perbulan')
             ->groupBy('nomor_order')
             ->get();
-            $totalOrder = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->count();
+            $totalOrder = DB::table('v_order_products_user')->where('status_order','Request')->count();
             $totalPendingOrder = DB::table('v_order_products_user')->where('status_order','Request')->count();
             $totalSelesaiOrder = DB::table('v_order_products_user')->where('status_order','Selesai')->count();
             return view('pages.admin.productOrder.index',[
@@ -185,11 +185,21 @@ $this->getOrderData($nomor);
     }
     public function getOrderData($id){
         $nomor = str_replace("-","/",$id);
-        $items = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')
+        $items = DB::table('v_order_products_user')
             ->where('nomor_order',$nomor)
+            ->where('status_order',"Request")
             ->get();
         return json_encode(array('data'=>$items));
     }
+    public function getOrderDataProses($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_order_products_user')
+            ->where('nomor_order',$nomor)
+            ->where('status_order',"Proses")
+            ->get();
+        return json_encode(array('data'=>$items));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -200,6 +210,22 @@ $this->getOrderData($nomor);
     public function edit($id)
     {
         //
+    }
+    public function updateToProses1($id){
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Proses']);
+        return json_encode(array('statusCode'=>200));
+    }
+    public function updateToProses($id){
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Proses']);
+        return json_encode(array('statusCode'=>200));
+    }
+    public function updateToProsesBatal1($id){
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request']);
+        return json_encode(array('statusCode'=>200));
+    }
+    public function updateToProsesBatal($id){
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request']);
+        return json_encode(array('statusCode'=>200));
     }
 
     /**
