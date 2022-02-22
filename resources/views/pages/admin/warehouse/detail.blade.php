@@ -36,22 +36,14 @@
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Tanggal</th>
-                                    <th>Nomor Order</th>
-                                    <th>Jumlah Produk</th>
-                                    <th>Total Pesanan</th>
-                                    <th>Total Harga</th>
-                                    <th>Status</th>
-                                    <th>Pembayaran</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </tfoot>
+                           
                             <tbody>
-                                <?php $no = 1; ?>
+                                <?php $no = 1; 
+                                $pesanan = 0; $sumharga=0;?>
                              @foreach ($items as $item)
+                             <?php $pesanan += $item->jumlah;
+                             $sumharga += $item->total_harga;
+                             ?>
                                  <tr>
                                      <td>{{$no++}}</td>
                                      <td>{{ $item->created_at }}</td>
@@ -67,15 +59,37 @@
                                                     class="icon text-white-50 ">
                                                     <i class="fas fa-eye"></i>
                                                 </span></a>
+                                                @if ($item->jenis == 'Belum' || $item->jenis == 'Kredit')
                                                 <a href="{{url('showDetail/'.$nomor)}}"
                                                 title="Pembayaran" class="btn btn-warning animate__animated animate__heartBeat animate__infinite"> <span
                                                     class="icon text-white-50 ">
                                                     <i class="fas fa-credit-card"></i>
                                                 </span></a>
+                                                @else
+                                                    
+                                                <a href="{{url('showDetail/'.$nomor)}}"
+                                                title="Pembayaran" class="btn btn-success "> <span
+                                                    class="icon text-white-50 ">
+                                                    <i class="fas fa-credit-card"></i>
+                                                </span></a>
+                                                @endif
                                             </td>
                                  </tr>
                              @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
+                                    <th>Nomor Order</th>
+                                    <th>Jumlah Produk</th>
+                                    <th>{{$pesanan}}</th>
+                                    <th>@currency($sumharga)</th>
+                                    <th>Status</th>
+                                    <th>Pembayaran</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

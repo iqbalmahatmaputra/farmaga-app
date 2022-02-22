@@ -62,10 +62,11 @@
                                             </span> <span class="text">Sudah Lunas</span>
                                         </button>
                                         @else
-                                        <button type="button" class="btn btn-info btn-icon-split">
+                                        <button type="button" class="btn btn-info btn-icon-split"data-toggle="modal"
+                                            data-target="#exampleModalCenterPaymentsPelunasan">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-credit-card"></i>
-                                            </span> <span class="text">Kredit - {{date('Y-m-d',$cekItems->tanggal_pembayaran)}}</span>
+                                            </span> <span class="text">Kredit - {{date("Y-m-d", strtotime($cekItems->tanggal_pembayaran))}}</span>
                                         </button>
                                         @endif
 
@@ -135,8 +136,59 @@
                     </div>
                     <div class="form-group">
                         <label for="product">Tanggal Pembayaran</label>
-                        <input type="date" name="tanggal_pembayaran" class="form-control" placeholder="" value="{{date('Y-m-d')}}"
-                            >
+                        <input type="date" name="tanggal_pembayaran" class="form-control" placeholder="" value="{{date('Y-m-d')}}">
+                    </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Pelunasan Kredit-->
+<div class="modal fade" id="exampleModalCenterPaymentsPelunasan" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Pelunasan {{$nomor}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php  
+                $nomor_order_stock = str_replace("/","-",$nomor);
+                ?>
+                <form action="{{route('payment.update',$nomor_order_stock)}}" method="post">
+                @method('PUT')
+
+                    @csrf
+                    <div class="form-group">
+                        <label for="product">Nomor Order</label>
+                        <input type="text" name="nomor_order_stock" class="form-control" placeholder="{{$nomor}}" readonly
+                            value="{{$nomor}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Ingin Melunaskan?</label>
+                        <select class="form-control" name="jenis">
+                            <option value="Cash">Ya</option>
+                            <option value="Kredit">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Total Harga</label>
+                        <input type="text" name="total_harga" class="form-control" placeholder="@currency($total_harga)" readonly
+                            value="{{$total_harga}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="product">Tanggal Pembayaran</label>
+                        <input type="date" name="tanggal_pembayaran" class="form-control" placeholder="" value="{{date('Y-m-d')}}">
                     </div>
 
 
