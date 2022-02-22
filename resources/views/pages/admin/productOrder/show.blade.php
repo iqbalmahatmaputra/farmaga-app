@@ -178,7 +178,7 @@
                             "</td>" +
                             "<td>" + row.harga_order +
                             "</td><td><button class='btn btn-primary proses' value='" + row
-                            .id_product_order + "'>Proses</button>" +
+                            .id_product_order + "'>Kirim</button>" +
                             "</td>";
                         bodyData += "</tr>";
 

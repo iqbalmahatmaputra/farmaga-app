@@ -236,7 +236,7 @@
                                 @empty
                                 <tr>
     
-                                    <th colspan="2">Data Kosong</th>
+                                    <th colspan="3">Data Kosong</th>
                                 </tr>
                                 @endforelse
                             </tbody>

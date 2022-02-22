@@ -8,8 +8,8 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Product Order</h1>
-        <a href="{{route('productOrder.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        <!-- <a href="{{route('productOrder.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a> -->
 
     </div>
     <!-- Card Cabangs -->
@@ -161,9 +161,9 @@
                                         <td class="text-center"><span
                                                 class="btn btn-warning">{{$item->status_order}}</span>
                                         </td>
-                                        @elseif ($item->status_order == 'Proses')
+                                        @elseif ($item->status_order == 'Kirim')
                                         <td class="text-center"><span
-                                                class="btn btn-primary">{{$item->status_order}}</span>
+                                                class="btn btn-primary">Waiting Confirmation</span>
                                         </td>
                                         @elseif ($item->status_order == 'Selesai')
                                         <td class="text-center"><span
@@ -176,9 +176,23 @@
                                         @endif
                                         <td>
                                             @if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG")
-
-                                            <a href="{{route('productOrder.edit',$item->id_product)}}"
-                                                class="btn btn-info">Proses Order</a>
+                                            @if ($item->status_order == 'Request')
+                                                
+                                            <?php $nomor = str_replace("/","-",$item->nomor_order);?>    
+                                        <a href="{{route('productOrder.show',$nomor)}}"
+                                                title="Kirim? Klik saja" class="btn btn-warning animate__animated animate__heartBeat animate__infinite "> <span
+                                                    class="icon text-white">
+                                                    <i class="fas fa-shipping-fast"></i>
+                                                </span></a>
+                                            @else
+                                            <?php $nomor = str_replace("/","-",$item->nomor_order);?>    
+                                        <a href="{{route('productOrder.show',$nomor)}}"
+                                                title="Cek Detail" class="btn btn-info"> <span
+                                                    class="icon text-white">
+                                                    <i class="fas fa-eye"></i> <span class="text-white">Detail</span>
+                                                </span></a>
+                                            @endif
+                                          
                                             @else
 
                                             <form action="{{route('productOrder.destroy',$item->id_product_order)}}"
