@@ -19,11 +19,11 @@
                <div class="card border-left-primary shadow h-100 py-2">
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                     aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">List Order from {{$cabang}} Request</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">List Order Stock Request</h6>
                 </a>
                 <div class="collapse show" id="collapseCardExample">
                     <div class="container mt-3">
-                        <p>Silahkan tekan tombol Proses untuk memproses orderan dari <strong>{{$cabang}}</strong></p>
+                        <p>Silahkan tekan tombol Proses untuk memproses orderan Stock</p>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -57,11 +57,31 @@
             <div class="card border-left-success shadow h-100 py-2">
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
                     aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-success">List Order from {{$cabang}} Proses</h6>
+                    <h6 class="m-0 font-weight-bold text-success">List Order Barang yang sudah sampai</h6>
                 </a>
                 <div class="container mt-3">
-                        <p>Jika sudah selesai, tekan <a href="{{ url()->previous() }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                class="fas fa-back fa-sm text-white-50"></i> Siap</a></p>
+                <?php  
+                $nomor_order_stock = str_replace("/","-",$nomor);
+                ?>
+                <form action="{{route('productStock.update',$nomor_order_stock)}}" method="post">
+                     @method('PUT')
+                     @csrf
+                     <div class="row">
+                         <div class="col-6">
+
+                             <div class="form-group">
+                                    
+                                     <input type="text" name="nomor_faktur_pbf" class="form-control" required placeholder="Input Nomor Faktur dari {{$items1->nama_distributor}}" 
+                                         value="{{$items1->nomor_faktur_pbf}}">
+                                 </div>
+                         </div>
+                         <div class="col-6">
+                             <button type="submit" class="btn btn-primary">Simpan</button>
+
+                         </div>
+                     </div>
+</form>
+                    
                     </div>
                 <div class="collapse show" id="collapseCardExample">
 
@@ -106,7 +126,7 @@
         $(document).on("click", ".proses", function () {
             var $ele = $(this).parent().parent();
             var id = $(this).val();
-            var url = "{{url('updateToProses')}}";
+            var url = "{{url('updateToTransArrive')}}";
             var uurl = url + "/" + id;
 
             $.ajax({
@@ -132,7 +152,7 @@
         $(document).on("click", ".batal", function () {
             var $ele = $(this).parent().parent();
             var id = $(this).val();
-            var url = "{{url('updateToProsesBatal')}}";
+            var url = "{{url('updateToTransRequest')}}";
             var uurl = url + "/" + id;
 
             $.ajax({
@@ -158,7 +178,7 @@
         function loadDataRequest() {
 
             $.ajax({
-                url: "{{url('getOrderData/'.$id)}}",
+                url: "{{url('getTransRequest/'.$id)}}",
                 type: "get",
                 data: {
                     _token: '{{ csrf_token() }}'
@@ -174,11 +194,11 @@
 
                         bodyData += "<tr>"
                         bodyData += "<td>" + i++ + "</td><td>" + row.nama_product +
-                            "</td><td>" + row.nama_distributor + "</td><td>" + row.qty +
+                            "</td><td>" + row.nama_distributor + "</td><td>" + row.qty_stock +
                             "</td>" +
-                            "<td>" + row.harga_order +
+                            "<td>" + row.harga +
                             "</td><td><button class='btn btn-primary proses' value='" + row
-                            .id_product_order + "'>Proses</button>" +
+                            .id_product_stock + "'>Proses</button>" +
                             "</td>";
                         bodyData += "</tr>";
 
@@ -198,7 +218,7 @@
         function loadDataProses() {
 
             $.ajax({
-                url: "{{url('getOrderDataProses/'.$id)}}",
+                url: "{{url('getTransArrive/'.$id)}}",
                 type: "get",
                 data: {
                     _token: '{{ csrf_token() }}'
@@ -214,11 +234,11 @@
 
                         bodyData2 += "<tr>"
                         bodyData2 += "<td>" + i++ + "</td><td>" + row.nama_product +
-                            "</td><td>" + row.nama_distributor + "</td><td>" + row.qty +
+                            "</td><td>" + row.nama_distributor + "</td><td>" + row.qty_stock +
                             "</td>" +
-                            "<td>" + row.harga_order +
+                            "<td>" + row.harga +
                             "</td><td><button class='btn btn-warning batal' value='" + row
-                            .id_product_order + "'>Batal</button>" +
+                            .id_product_stock + "'>Batal</button>" +
                             "</td>";
                         bodyData2 += "</tr>";
 

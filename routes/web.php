@@ -41,6 +41,11 @@ Route::get('/updateToProsesBatal/{id}','Admin\ProductOrderController@updateToPro
 Route::post('/AddMoreStock', 'Admin\ProductStockController@AddMoreStock')->name('AddMoreStock');
 Route::get('/cariDataStock/{id}', 'Admin\ProductStockController@dataAjaxStock');
 Route::get('/showDetail/{id}', 'Admin\ProductStockController@showDetail');
+Route::get('/showDetailTransactional/{id}', 'Admin\ProductStockController@showDetailTransactional');
+Route::get('/getTransRequest/{id}','Admin\ProductStockController@getTransRequest');
+Route::get('/getTransArrive/{id}','Admin\ProductStockController@getTransArrive');
+Route::get('/updateToTransArrive/{id}','Admin\ProductStockController@updateToTransArrive');
+Route::get('/updateToTransRequest/{id}','Admin\ProductStockController@updateToTransRequest');
 
 
 Route::prefix('admin')

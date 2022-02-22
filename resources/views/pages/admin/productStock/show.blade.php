@@ -88,7 +88,7 @@
 
                                     <tr>
                                         <td>{{$item->nama_distributor}}</td>
-                                        <td>@currency($item->harga_order)</td>
+                                        <td>@currency($item->harga)</td>
 
                                     </tr>
                                     @empty

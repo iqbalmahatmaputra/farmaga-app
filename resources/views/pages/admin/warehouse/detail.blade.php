@@ -51,7 +51,13 @@
                                      <td>{{ $item->jumlah_product}}</td>
                                      <td>{{ $item->jumlah}}</td>
                                      <td>@currency($item->total_harga)</td>
+                                     @if ($item->status == 'Request')
+                                         
                                      <td>{{ $item->status}}</td>
+                                     @else
+                                     <td>{{ $item->status}} - {{ $item->nomor_faktur_pbf}}</td>
+                                         
+                                     @endif
                                      <td>{{$item->jenis}}</td>
                                      <td class="d-flex justify-content-center"><?php $nomor = str_replace("/","-",$item->nomor_order_stock);?>    
                                         <a href="{{url('showDetail/'.$nomor)}}"
@@ -67,12 +73,22 @@
                                                 </span></a>
                                                 @else
                                                     
-                                                <a href="{{url('showDetail/'.$nomor)}}"
-                                                title="Pembayaran" class="btn btn-success "> <span
-                                                    class="icon text-white-50 ">
-                                                    <i class="fas fa-credit-card"></i>
+                                                
+                                                @endif
+                                                @if ($item->status == 'Request')
+                                                <a href="{{url('showDetailTransactional/'.$nomor)}}"
+                                                title="Sudah Terima?" class="btn btn-warning animate__animated animate__heartBeat animate__infinite "> <span
+                                                    class="icon text-white">
+                                                    <i class="fas fa-shipping-fast"></i>
+                                                </span></a>
+                                                @else
+                                                <a href="{{url('showDetailTransactional/'.$nomor)}}"
+                                                title="Sudah Sampai" class="btn btn-success"> <span
+                                                    class="icon text-white">
+                                                    <i class="fas fa-shipping-fast"></i>
                                                 </span></a>
                                                 @endif
+                                                
                                             </td>
                                  </tr>
                              @endforeach

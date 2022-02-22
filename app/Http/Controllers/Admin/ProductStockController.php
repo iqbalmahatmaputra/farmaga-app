@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\ProductStock;
 use Alert;
-
+use Redirect;
 class ProductStockController extends Controller
 {
     /**
@@ -129,8 +129,8 @@ class ProductStockController extends Controller
     public function show($id)
     {
         $items = DB::table('v_stock_products')->where('id_product',$id)->orderBy('created_at','desc')->get();
-        $pbf_items = DB::table('v_stock_products')->selectRaw('sum(qty_stock) as jumlahStok,id_product,id_distributor, nama_product,nama_distributor')->where('id_product',$id)->groupBy('nama_distributor')->get();
-        $harga_items = DB::table('v_order_products_user')->where('id_product',$id)->groupBy('nama_distributor')->get();
+        $pbf_items = DB::table('v_stock_products')->selectRaw('sum(qty_stock) as jumlahStok,id_product,id_distributor, nama_product,nama_distributor')->where('id_product',$id)->where('status','Accept')->groupBy('nama_distributor')->get();
+        $harga_items = DB::table('v_harga_produk')->where('id_product',$id)->groupBy('nama_distributor')->get();
         // Cek total pengeluaran
         $order_items = DB::table('v_order_products_user')->selectRaw('cabang, sum(qty) as jumlah_order, sum(qty*harga_order) as total')->where('id_product',$id)->where('status_order','!=','Keranjang')->groupBy('cabang')->get();
 
@@ -147,7 +147,39 @@ class ProductStockController extends Controller
         return view('pages.admin.productStock.detail',compact('items','nomor','cekItems'));
 
     }
+    public function showDetailTransactional($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_stock_products')->where('nomor_order_stock',$nomor)->get();
+        $items1 = DB::table('v_stock_products')->where('nomor_order_stock',$nomor)->first();
+        $title = "List Details for ".$nomor;
 
+
+        return view('pages.admin.productStock.showTrans',compact('items','nomor','id','title','items1'));
+    }
+    public function getTransRequest($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_stock_products')
+            ->where('nomor_order_stock',$nomor)
+            ->where('status',"Request")
+            ->get();
+        return json_encode(array('data'=>$items));
+    }
+    public function getTransArrive($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_stock_products')
+            ->where('nomor_order_stock',$nomor)
+            ->where('status',"Accept")
+            ->get();
+        return json_encode(array('data'=>$items));
+    }
+    public function updateToTransArrive($id){
+        DB::table('product_stocks')->where('id_product_stock',$id)->update(['status' => 'Accept']);
+        return json_encode(array('statusCode'=>200));
+    }
+    public function updateToTransRequest($id){
+        DB::table('product_stocks')->where('id_product_stock',$id)->update(['status' => 'Request']);
+        return json_encode(array('statusCode'=>200));
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -168,7 +200,11 @@ class ProductStockController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $nomor = str_replace("-","/",$id);
+        $data = $request->except(['_token', '_method' ]);
+        $item =  DB::table('product_stocks')->where('nomor_order_stock',$nomor)->update($data);
+       Alert::toast('Nomor Faktur Berhasil Ditambahkan', 'success');
+       return redirect()->route('warehouse.index');
     }
 
     /**
