@@ -130,6 +130,8 @@ class ProductOrderController extends Controller
                 $save->save();
             }
         }
+        alert()->success('Berhasil','Silahkan Checkout orderan anda jika sudah selesai pada '.$nomor_order.'');
+
 
         return redirect()->route('productOrder.index');
     }
@@ -215,12 +217,16 @@ $this->getOrderData($nomor);
    
     public function updateToProses($id){
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Proses']);
+        
+
         return json_encode(array('statusCode'=>200));
     }
 
     
     public function updateToProsesBatal($id){
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request']);
+        
+
         return json_encode(array('statusCode'=>200));
     }
 

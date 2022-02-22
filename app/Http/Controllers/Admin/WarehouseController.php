@@ -38,8 +38,8 @@ class WarehouseController extends Controller
     }
 
     public function detailDist($id){
-        $items = DB::table('v_order_products_user')->where('id_distributor',$id)->get();
-        $title = DB::table('v_order_products_user')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
+        $items = DB::table('v_stock_products_groupby')->where('id_distributor',$id)->get();
+        $title = DB::table('distributors')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
         
             return view('pages.admin.warehouse.detail',[
                 'items' => $items,
@@ -50,7 +50,7 @@ class WarehouseController extends Controller
         $items = DB::table('v_order_products_user')->where('id_distributor',$id)->get();
         $title = DB::table('v_order_products_user')->select('nama_distributor')->where('id_distributor',$id)->first();
         
-            return view('pages.admin.warehouse.create2',[
+            return view('pages.admin.productStock.create',[
                 'items' => $items,
                 'nama' => $title,
             ]);
@@ -66,7 +66,7 @@ class WarehouseController extends Controller
                     ->where('nama_product','LIKE',"%$search%")
                     ->orwhere('nama_distributor','LIKE',"%$search%")
                     ->get();
-        }
+        } 
         return response()->json($data);
     }
 

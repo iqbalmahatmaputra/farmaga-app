@@ -51,9 +51,9 @@
                            
 
                                   @forelse ($items as $item)
-                                    <option value="{{old('satuan_product')}}">{{$item->satuan_product}}</option>
+                                    <option value="{{$item->satuan_product}}">{{$item->satuan_product}}</option>
                                   @empty
-                                    <option value="{{old('satuan_product')}}">Belum ada satuan</option>
+                                    <option value="{{$item->satuan_product}}">Belum ada satuan</option>
                                   @endforelse
                                 </select>
                             </div>

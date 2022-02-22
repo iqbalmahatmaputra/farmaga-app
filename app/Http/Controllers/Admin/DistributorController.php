@@ -43,6 +43,8 @@ class DistributorController extends Controller
      */
     public function store(DistributorRequest $request)
     {
+        Alert::toast('Data Berhasil ditambahkan', 'success');
+
         $data = $request->all();
         Distributor::create($data);
         return redirect()->route('distributor.index');
@@ -86,6 +88,8 @@ class DistributorController extends Controller
 
         // $item = \DB::table('distributors')->where('id_distributor',$id_distributor)->first();
         // $item->update($data);   
+        Alert::toast('Data Berhasil diubah', 'success');
+
        $item =  \DB::table('distributors')->where('id_distributor',$id_distributor)->update($data);
         return redirect()->route('distributor.index');
     }
@@ -98,6 +102,8 @@ class DistributorController extends Controller
      */
     public function destroy( $id)
     {
+        Alert::toast('Data Berhasil dihapus', 'success');
+
         \DB::table('distributors')->where('id_distributor',$id)->delete();
 
         return redirect()->route('distributor.index');

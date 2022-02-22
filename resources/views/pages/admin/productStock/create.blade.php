@@ -7,7 +7,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Tambah Order</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{$title->nama_distributor}}</h1>
         <a href="{{ url()->previous() }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i
                 class="fas fa-back fa-sm text-white-50"></i> Batal</a>
     </div>
@@ -18,8 +18,8 @@
         <div class="col-xl-12 col-md-12 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Order Produk</h6>
-                    <small>Produk dan Distributor akan tampil jika <b>Gudang</b> sudah memberikan harga</small>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Order Stock ke {{$title->nama_distributor}}</h6>
+                    <small>Produk akan tampil jika <b>Gudang</b> sudah memberikan harga</small>
                 </div>
 
                 @if ($errors->any())
@@ -107,7 +107,7 @@
         placeholder: 'Pilih Produk',
         width: '100%',
         ajax: {
-            url: "{{ route('cariDataStock') }}",
+            url: "{{url('cariDataStock/'.$item->id_distributor)}}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {
@@ -145,7 +145,7 @@
         placeholder: 'Pilih Produk',
         width: '100%',
         ajax: {
-            url: "{{ route('cariDataStock') }}",
+            url: "{{url('cariDataStock/'.$item->id_distributor)}}",
             dataType: 'json',
             delay: 250,
             processResults: function (data) {

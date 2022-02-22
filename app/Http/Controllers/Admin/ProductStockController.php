@@ -8,6 +8,7 @@ use DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\ProductStock;
+use Alert;
 
 class ProductStockController extends Controller
 {
@@ -32,10 +33,27 @@ class ProductStockController extends Controller
      */
     public function create()
     {
+        $title = DB::table('v_order_products_user')->select('nama_distributor')->where('id_distributor',$id)->first();
         $items = DB::table('distributors')
         ->select('*')->get();
         return view('pages.admin.productStock.create',[
-            'items' => $items
+            'items' => $items,
+            'title' => $title
+
+        ]);
+    }
+    public function detailOrder($id)
+    {
+        $title = DB::table('v_order_products_user')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
+        $items = DB::table('distributors')
+        ->select('*')->where('id_distributor',$id)->get();
+        $nama_distributor = $title->nama_distributor;
+        Alert::info('Perhatian', 'Harap tambahkan harga terlebih dahulu agar produk tampil sesuai distributor '.$nama_distributor.'');
+
+        return view('pages.admin.productStock.create',[
+            'items' => $items,
+            'title' => $title
+
         ]);
     }
 
@@ -60,28 +78,31 @@ class ProductStockController extends Controller
         $hitung = count($request->id_product);
         
             for($i=0;$i<$hitung;$i++)
-            {
-                
+            {   
+                $harga = DB::table('products_price')->select('harga')->where('id_distributor',$request->id_distributor[$i])->where('id_product',$request->id_product[$i])->first();
                 $save = new ProductStock;
                 $save->qty_stock = $request->qty_stock[$i];
                 $save->id_product = $request->id_product[$i];
                 $save->id_distributor = $request->id_distributor[$i];
                 $save->nomor_order_stock = $nomor_order_stock;
+                $save->harga = $harga->harga;
+                $save->status = 'Request';
                 $save->save();
             }
         
-
-        return redirect()->route('productStock.index');
+            toast('Data berhasil dimasukkan pada nomor '.$nomor_order_stock.'','success');
+        return redirect()->route('warehouse.index');
     }
-    public function dataAjaxStock(Request $request)
+    public function dataAjaxStock(Request $request,$id)
     {
     	$data = [];
 
         if($request->has('q')){
             $search = $request->q;
             
-                    $data = \DB::table('products')->select('id_product','nama_product as nama')
+                    $data = \DB::table('v_harga_produk')->select('id_product','nama_product as nama')
                     ->where('nama_product','LIKE',"%$search%")
+                    ->where('id_distributor',$id)
                     ->get();
         }
         return response()->json($data);
@@ -104,6 +125,13 @@ class ProductStockController extends Controller
         $title = "Product Details for ".$products;
 
         return view('pages.admin.productStock.show',compact('items','title','pbf_items','harga_items','order_items'));
+    }
+    public function showDetail($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_stock_products')->where('nomor_order_stock',$nomor)->get();
+
+        return view('pages.admin.productStock.detail',compact('items','nomor'));
+
     }
 
     /**

@@ -7,8 +7,9 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Product</h1>
-        <a href="{{route ('warehouse.index')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        <h1 class="h3 mb-0 text-gray-800">Detail Order {{$nomor}}</h1>
+        <a href="{{ url()->previous() }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i
+                class="fas fa-back fa-sm text-white-50"></i> Kembali</a>
     </div>
 
     <div class="row">
@@ -17,7 +18,7 @@
         <div class="col-xl-12 col-md-12 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Data product</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data {{$nomor}}</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -26,37 +27,44 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Product</th>
-                                    <!-- <th>Distributor</th> -->
-                                    <th>Jumlah Stok</th>
-                                    <th>Aksi</th>
+                                    <th>Distributor</th>
+                                    <th>Jumlah</th>
+                                    <th>Harga</th>
+                                    <!-- <th>Aksi</th> -->
                                 </tr>
                             </thead>
                            
                             <tbody>
-                                <?php $no =1;?>
+                                <?php $no =1;
+                                $total_qty = 0;
+                                $total_harga = 0;
+                                ?>
                                 @forelse ($items as $item)
                                 <tr>
                                     <td>{{$no++}}</td>
                                     <td>{{ucwords($item->nama_product)}}</td>
-                                    <!-- <td>{{ucwords($item->nama_distributor)}}</td> -->
-                                    <td>{{$item->jumlahStok}}</td>
-                                    <td class="text-center">
-                                    <a href="{{route('productStock.show',$item->id_product)}}" class="btn btn-info btn-icon-split">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-history"></i>
-                                        </span>
-                                        <span class="text">History Stock</span>
-                                    </a>
-                                    </td>
-
-                                    </button>
+                                    <td>{{ucwords($item->nama_distributor)}}</td>
+                                    <td>{{$item->qty_stock}}</td>
+                                    <td>@currency($item->harga)</td>
+                                    <!-- <td></td> -->
+                                    <?php $total_qty += $item->qty_stock;
+                                    $total_harga += $item->harga*$item->qty_stock;?>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center"></td>
+                                    <td colspan="6" class="text-center">Data Kosong</td>
                                 </tr>
                                 @endforelse
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4">Total Harga</th>
+                                   
+                                    <!-- <th>{{$total_qty}}</th> -->
+                                    <th>@currency($total_harga)</th>
+                                    <!-- <th>Aksi</th> -->
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

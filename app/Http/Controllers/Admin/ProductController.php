@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\ProductRequest;
 use App\Product;
 use Illuminate\Support\Str;
 use DB;
+Use Alert;
 class ProductController extends Controller
 {
     /**
@@ -47,6 +48,7 @@ class ProductController extends Controller
     {
         $data = $request->all();
         Product::create($data);
+        Alert::toast('Data Berhasil ditambahkan', 'success');
         return redirect()->route('product.index');
     }
 
@@ -89,6 +91,8 @@ class ProductController extends Controller
         // $item = \DB::table('distributors')->where('id_distributor',$id_distributor)->first();
         // $item->update($data);   
        $item =  DB::table('products')->where('id_product',$id)->update($data);
+       Alert::toast('Data Berhasil diubah', 'success');
+
         return redirect()->route('product.index');
     }
 
@@ -100,6 +104,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        Alert::toast('Data Berhasil dihapus', 'success');
+        
         DB::table('products')->where('id_product',$id)->delete();
 
         return redirect()->route('product.index');

@@ -49,6 +49,7 @@ class ProductPriceController extends Controller
     {
         $data =$request->except(['_token', '_method' ]);
         \DB::table('products_price')->insert($data);
+        toast('Data berhasil ditambahkan','success');
         return redirect()->route('productPrice.index');
     }
 
@@ -99,6 +100,7 @@ class ProductPriceController extends Controller
 
         // $item = \DB::table('distributors')->where('id_distributor',$id_distributor)->first();
         // $item->update($data);   
+        toast('Data berhasil diubah','success');
        $item =  \DB::table('products_price')->where('id_product_price',$id)->update($data);
         return redirect()->route('productPrice.index');
     }

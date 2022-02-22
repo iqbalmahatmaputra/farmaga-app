@@ -25,35 +25,51 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <!-- <th>No</th> -->
-                                    <th>Cabang</th>
-                                    <th>Nama Produk</th>
-                                    <th>Jumlah</th>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>Nomor Order</th>
+                                    <th>Jumlah Produk</th>
+                                    <th>Total Pesanan</th>
+                                    <th>Total Harga</th>
                                     <th>Status</th>
-                                    <!-- <th>Aksi</th> -->
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <!-- <th>No</th> -->
-                                    <th>Cabang</th>
-                                    <th>Nama Produk</th>
-                                    <th>Jumlah</th>
+                                    <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>Nomor Order</th>
+                                    <th>Jumlah Produk</th>
+                                    <th>Total Pesanan</th>
+                                    <th>Total Harga</th>
                                     <th>Status</th>
-                                    <!-- <th>Aksi</th> -->
+                                    <th>Aksi</th>
                                 </tr>
                             </tfoot>
                             <tbody>
+                                <?php $no = 1; ?>
                              @foreach ($items as $item)
                                  <tr>
-                                     <td>{{ $item->cabang}}</td>
-                                     <td>{{ $item->nama_product}}</td>
-                                     <td>{{ $item->qty}}</td>
-                                     <td>{{ $item->nomor_order}}</td>
-                                     <td>{{ $item->status_order}}</td>
-                                     <!-- <td></td> -->
+                                     <td>{{$no++}}</td>
+                                     <td>{{ $item->created_at }}</td>
+                                     <td>{{ $item->nomor_order_stock}}</td>
+                                     <td>{{ $item->jumlah_product}}</td>
+                                     <td>{{ $item->jumlah}}</td>
+                                     <td>@currency($item->total_harga)</td>
+                                     <td>{{ $item->status}}</td>
+                                     <td class="d-flex justify-content-center"><?php $nomor = str_replace("/","-",$item->nomor_order_stock);?>    
+                                        <a href="{{url('showDetail/'.$nomor)}}"
+                                                title="Cek Detail" class="btn btn-info"> <span
+                                                    class="icon text-white-50 ">
+                                                    <i class="fas fa-eye"></i>
+                                                </span></a>
+                                                <a href="{{url('showDetail/'.$nomor)}}"
+                                                title="Pembayaran" class="btn btn-warning"> <span
+                                                    class="icon text-white-50 ">
+                                                    <i class="fas fa-credit-card"></i>
+                                                </span></a>
+                                            </td>
                                  </tr>
                              @endforeach
                             </tbody>
@@ -69,7 +85,12 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#dataTable').DataTable();
+        $('#dataTable').DataTable(
+            {
+                "order": [[ 1, "desc" ]]
+
+            }
+        );
     });
 
 </script>

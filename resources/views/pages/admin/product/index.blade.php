@@ -56,13 +56,13 @@
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('delete')
-                                            <button class="btn btn-danger" title="Delete Product">
+                                            <button class="btn btn-danger" title="Delete Product" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
                                                 <i class="fa fa-fw fa-trash"></i>
+                                            </button>
                                             </form>
                                             
                                     </td>
 
-                                    </button>
                                 </tr>
                                 @empty
                                 <tr>
