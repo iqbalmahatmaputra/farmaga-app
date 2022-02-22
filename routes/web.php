@@ -58,6 +58,7 @@ Route::prefix('admin')
     Route::resource('productStock','ProductStockController');
     Route::resource('user','UserController');
     Route::resource('warehouse','WarehouseController');
+    Route::resource('payment','PaymentController');
 
     
 

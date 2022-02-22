@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -32,6 +32,7 @@
                                     <th>Total Pesanan</th>
                                     <th>Total Harga</th>
                                     <th>Status</th>
+                                    <th>Pembayaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -44,6 +45,7 @@
                                     <th>Total Pesanan</th>
                                     <th>Total Harga</th>
                                     <th>Status</th>
+                                    <th>Pembayaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </tfoot>
@@ -58,6 +60,7 @@
                                      <td>{{ $item->jumlah}}</td>
                                      <td>@currency($item->total_harga)</td>
                                      <td>{{ $item->status}}</td>
+                                     <td>{{$item->jenis}}</td>
                                      <td class="d-flex justify-content-center"><?php $nomor = str_replace("/","-",$item->nomor_order_stock);?>    
                                         <a href="{{url('showDetail/'.$nomor)}}"
                                                 title="Cek Detail" class="btn btn-info"> <span
@@ -65,7 +68,7 @@
                                                     <i class="fas fa-eye"></i>
                                                 </span></a>
                                                 <a href="{{url('showDetail/'.$nomor)}}"
-                                                title="Pembayaran" class="btn btn-warning"> <span
+                                                title="Pembayaran" class="btn btn-warning animate__animated animate__heartBeat animate__infinite"> <span
                                                     class="icon text-white-50 ">
                                                     <i class="fas fa-credit-card"></i>
                                                 </span></a>
@@ -82,6 +85,7 @@
 
 
 </div>
+
 
 <script type="text/javascript">
     $(document).ready(function () {

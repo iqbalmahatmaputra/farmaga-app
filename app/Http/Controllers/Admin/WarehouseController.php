@@ -38,7 +38,7 @@ class WarehouseController extends Controller
     }
 
     public function detailDist($id){
-        $items = DB::table('v_stock_products_groupby')->where('id_distributor',$id)->get();
+        $items = DB::table('v_stock_products_payments')->where('id_distributor',$id)->get();
         $title = DB::table('distributors')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
         
             return view('pages.admin.warehouse.detail',[

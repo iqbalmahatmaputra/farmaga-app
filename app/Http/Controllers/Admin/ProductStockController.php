@@ -72,7 +72,12 @@ class ProductStockController extends Controller
         $hariOrder = date('Y-m-d');
         $satu = 1;
         $nomorUrut = \DB::table('product_stocks')->where('nomor_order_stock','LIKE',"%$today%")->distinct()->count('nomor_order_stock');
-        $nomor_order_stock = sprintf("%03s", abs($nomorUrut + $satu))."/"."GDG"."/".$today;
+        $nomoor = \DB::table('product_stocks')->orderby('created_at','desc')->first();
+        $order = $nomoor->nomor_order_stock;
+        $urut= substr($order,2,1);
+        $nomor_order_stock = sprintf("%03s", abs($urut + $satu))."/"."GDG"."/".$today;
+        // var_dump($nomor_order_stock);
+        // die;
         $data = array();
 
         $hitung = count($request->id_product);
@@ -89,6 +94,14 @@ class ProductStockController extends Controller
                 $save->status = 'Request';
                 $save->save();
             }
+  $total_harga = DB::table('v_stock_products_groupby')->select('total_harga')->where('nomor_order_stock',$nomor_order_stock)->first();
+        $dataSet[] = [
+            'nomor_order_stock'  => $nomor_order_stock,
+            'jenis'    => 'Belum',
+            'total_harga'       => $total_harga->total_harga,
+            'tanggal_pembayaran' => $hariOrder,
+        ];
+            \DB::table('payments')->insert($dataSet);
         
             toast('Data berhasil dimasukkan pada nomor '.$nomor_order_stock.'','success');
         return redirect()->route('warehouse.index');
@@ -129,8 +142,9 @@ class ProductStockController extends Controller
     public function showDetail($id){
         $nomor = str_replace("-","/",$id);
         $items = DB::table('v_stock_products')->where('nomor_order_stock',$nomor)->get();
+        $cekItems = DB::table('payments')->where('nomor_order_stock',$nomor)->first();
 
-        return view('pages.admin.productStock.detail',compact('items','nomor'));
+        return view('pages.admin.productStock.detail',compact('items','nomor','cekItems'));
 
     }
 
