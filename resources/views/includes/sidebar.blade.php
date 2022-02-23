@@ -14,7 +14,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="{{route ('home')}}">
               <i class="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span></a>
       </li>
@@ -38,8 +38,8 @@
           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Transaction Data</h6>
-                  <a class="collapse-item" href="{{route ('warehouse.index')}}">Dashboard</a>
                   <a class="collapse-item" href="{{route ('productOrder.index')}}">Branch Orders List</a>
+                  <a class="collapse-item" href="{{route ('warehouse.index')}}">Order PBF (Stocks)</a>
                   <a class="collapse-item" href="{{route ('productStock.index')}}">Product Stock</a>
 
               </div>

@@ -2,8 +2,12 @@
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         <?php 
                      $today = date('Y.m.d');
+                     $jumlah_order =0;
+                     $jumlah_datang =0;
                      $nomor_order = sprintf("%03s", abs(Auth::user()->id_cabang))."/".Auth::user()->cabang."/".$today;
-                     $jumlah_order = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->where('status_order','Keranjang')->count(); ?>
+                     $jumlah_order = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->where('status_order','Keranjang')->count();
+                     $jumlah_datang = DB::table('v_order_user_cabang')->where('id_cabang',Auth::user()->id_cabang)->where('status_order','Kirim')->count()
+                     ?>
           <!-- Sidebar Toggle (Topbar) -->
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
@@ -46,14 +50,14 @@
 
             <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
-            @if ($jumlah_order >= 1)
+            @if ($jumlah_order >= 1 || $jumlah_datang >= 1)
               <a class="nav-link dropdown-toggle animate__animated animate__tada animate__infinite" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @else
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   @endif
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{$jumlah_order}}</span>
+                <span class="badge badge-danger badge-counter">{{$jumlah_order+$jumlah_datang}}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -77,17 +81,19 @@
                      @endif
                   </div>
                 </button>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                @if ($jumlah_datang >= 1)
+                <a class="dropdown-item d-flex align-items-center" href="{{route ('productOrder.index')}}">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
+                    <span class="icon text-white"> <i class="fas fa-shipping-fast"></i></span>
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    Beberapa orderan kamu sudah sampai. Silahkan klik disini untuk konfirmasi barang!
+                    <div class="small text-gray-500"><?php echo date('l jS \of F Y ');?></div>
+                    Orderan kamu sudah sampai!
                   </div>
                 </a>
+@endif
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-warning">

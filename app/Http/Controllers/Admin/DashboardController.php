@@ -14,7 +14,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.dashboard');
+        $nama = Auth::user()->name ;
+        $title = 'Welcome Back to ';
+        return view('pages.admin.dashboard',compact('title'));
     }
 
     /**

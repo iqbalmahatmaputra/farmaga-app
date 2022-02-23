@@ -164,6 +164,7 @@
                                                     class="btn btn-warning">{{$item->status_order}}</span>
                                             </td>
                                             @elseif ($item->status_order == 'Kirim')
+                                            @if (Auth::user()->roles == "USER")
                                             <td class="text-center"><?php $nomor = str_replace("/","-",$item->nomor_order);?>
                                                 <a href="{{url('/showArriveList',$nomor)}}" title="Confirmation"
                                                     class="btn btn-info animate__animated animate__heartBeat animate__infinite"> <span class="icon text-white">
@@ -171,6 +172,16 @@
                                                             class="text-white">Confirmation</span>
                                                     </span></a>
                                             </td>
+                                            @else
+                                            <td class="text-center"><?php $nomor = str_replace("/","-",$item->nomor_order);?>
+                                                <a href="#" title="Confirmation"
+                                                    class="btn btn-info"> <span class="icon text-white">
+                                                        <i class="fas fa-shipping-fast"></i> <span
+                                                            class="text-white">Waiting</span>
+                                                    </span></a>
+                                            </td>
+                                            @endif
+                                            
                                             @elseif ($item->status_order == 'Selesai')
                                             @if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG")
                                                 

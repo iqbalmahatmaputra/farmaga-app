@@ -17,9 +17,10 @@ class WarehouseController extends Controller
     {
         $items = DB::table('v_order_products_user')->get();
         $distributors = DB::table('distributors as d')
-        ->select(array('v.*','d.nama_distributor as nama_distributor',DB::raw('COUNT(v.id_product_order) as orderan')))
+        ->select(array('v.*','d.nama_distributor as nama_distributor,d.id_distributor as id_distributor',DB::raw('COUNT(v.id_product_order) as orderan')))
         ->leftjoin('v_order_products_user as v', 'v.id_distributor', '=', 'd.id_distributor')
         ->groupBy('d.nama_distributor')->get();
+        $distr = DB::table('distributors')->get();
 
    
 
@@ -32,6 +33,7 @@ class WarehouseController extends Controller
             'items' => $items,
             'cabangs' => $cabangs,
             'distributors' => $distributors,
+            'distr' => $distr,
 
            
         ]);
