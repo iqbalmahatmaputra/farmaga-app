@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\ProductOrderRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\ProductOrder;
+use Alert;
 
 
 
@@ -42,9 +43,16 @@ class ProductOrderController extends Controller
             $saya = Auth::user()->cabang;
 
             $items = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->get();
+            $itemss = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->groupBy('nomor_order')->get();
             $totalOrder = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->where('cabang',Auth::user()->cabang)->count();
             $totalPendingOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Request')->count();
             $totalSelesaiOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Selesai')->count();
+
+            foreach ($itemss as $item){
+               if($item->status_order == 'Kirim'){
+                Alert::info('Orderan Sudah dikirim dari Gudang!', ' Jangan lupa untuk konfirmasinya ya jika sudah sampai!');
+               }
+            }
        
             return view('pages.admin.productOrder.index',[
                 'items' => $items,
@@ -187,6 +195,18 @@ class ProductOrderController extends Controller
 $this->getOrderData($nomor);
         return view('pages.admin.productOrder.show',compact('items','title','id','cabang'));
     }
+    public function showArriveList($id)
+    {
+        $nomor = str_replace("-","/",$id);
+            $items = DB::table('v_order_products_user')->where('status_order','Kirim')
+            ->where('nomor_order',$nomor)
+            ->get();
+            $title = "Confirmation for ".$nomor;
+            $cabang = $items[0]->cabang;
+        return view('pages.admin.productOrder.Confirmation',compact('items','title','id','cabang'));
+    }
+
+    
     public function getOrderData($id){
         $nomor = str_replace("-","/",$id);
         $items = DB::table('v_order_products_user')
@@ -200,6 +220,22 @@ $this->getOrderData($nomor);
         $items = DB::table('v_order_products_user')
             ->where('nomor_order',$nomor)
             ->where('status_order',"Kirim")
+            ->get();
+        return json_encode(array('data'=>$items));
+    }
+    public function getOrderDataArrive($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_order_products_user')
+            ->where('nomor_order',$nomor)
+            ->where('status_order',"Kirim")
+            ->get();
+        return json_encode(array('data'=>$items));
+    }
+    public function getOrderDataAccept($id){
+        $nomor = str_replace("-","/",$id);
+        $items = DB::table('v_order_products_user')
+            ->where('nomor_order',$nomor)
+            ->where('status_order',"Selesai")
             ->get();
         return json_encode(array('data'=>$items));
     }
@@ -219,18 +255,23 @@ $this->getOrderData($nomor);
     public function updateToProses($id){
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Kirim',
         'tanggal_kirim' => date('Y-m-d H:i:s')]);
-        
-
         return json_encode(array('statusCode'=>200));
     }
-
     
     public function updateToProsesBatal($id){
-
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Request',
         'tanggal_kirim' => NULL]);
-        
-
+        return json_encode(array('statusCode'=>200));
+    }
+    public function updateToAccept($id){
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Selesai',
+        'tanggal_terima' => date('Y-m-d H:i:s')]);
+        return json_encode(array('statusCode'=>200));
+    }
+    
+    public function updateToAcceptCancel($id){
+        DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Kirim',
+        'tanggal_terima' => NULL]);
         return json_encode(array('statusCode'=>200));
     }
 

@@ -36,6 +36,13 @@ Route::get('/getOrderData/{id}','Admin\ProductOrderController@getOrderData');
 Route::get('/getOrderDataProses/{id}','Admin\ProductOrderController@getOrderDataProses');
 Route::get('/updateToProses/{id}','Admin\ProductOrderController@updateToProses');
 Route::get('/updateToProsesBatal/{id}','Admin\ProductOrderController@updateToProsesBatal');
+// Confirmation Arrive
+Route::get('/showArriveList/{id}', 'Admin\ProductOrderController@showArriveList');
+Route::get('/getOrderDataArrive/{id}','Admin\ProductOrderController@getOrderDataArrive');
+Route::get('/getOrderDataAccept/{id}','Admin\ProductOrderController@getOrderDataAccept');
+Route::get('/updateToAccept/{id}','Admin\ProductOrderController@updateToAccept');
+Route::get('/updateToAcceptCancel/{id}','Admin\ProductOrderController@updateToAcceptCancel');
+
 
 // ProductStock
 Route::post('/AddMoreStock', 'Admin\ProductStockController@AddMoreStock')->name('AddMoreStock');

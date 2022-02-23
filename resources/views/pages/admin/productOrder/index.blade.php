@@ -8,8 +8,11 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Product Order</h1>
-        <!-- <a href="{{route('productOrder.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a> -->
+        @if (Auth::user()->roles == "USER" )
+            
+        <a href="{{route('productOrder.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        @endif
 
     </div>
     <!-- Card Cabangs -->
@@ -137,75 +140,97 @@
                                         <td>{{$item->nama_product}} / {{$item->nama_distributor}}</td>
                                         <td>Tidak dapat dilihat</td>
                                         @else
-                                        <td> 
-                                        <?php $nomor = str_replace("/","-",$item->nomor_order);?>    
-                                        <a href="{{route('productOrder.show',$nomor)}}"
-                                                title="Cek Detail" class="btn btn-info"> <span
-                                                    class="icon text-white-50">
+                                        <td>
+                                            <?php $nomor = str_replace("/","-",$item->nomor_order);?>
+                                            <a href="{{route('productOrder.show',$nomor)}}" title="Cek Detail"
+                                                class="btn btn-info"> <span class="icon text-white-50">
                                                     <i class="fas fa-eye"></i>
                                                 </span></a></td>
                                         <!-- cek limit -->
                                         @if ($item->harga_order <= $item->limit_perhari)
 
-                                        <td>@currency($item->harga_order)</td>
-                                        @else
-                                        <td><span class="btn btn-warning">@currency($item->harga_order)</span></td>
+                                            <td>@currency($item->harga_order)</td>
+                                            @else
+                                            <td><span class="btn btn-warning">@currency($item->harga_order)</span></td>
 
-                                        @endif
+                                            @endif
 
-                                        @endif
-                                        <td>{{$item->qty}}</td>
-                                        <td>{{$item->cabang}}</td>
-                                        @if ($item->status_order == 'Request')
-
-                                        <td class="text-center"><span
-                                                class="btn btn-warning">{{$item->status_order}}</span>
-                                        </td>
-                                        @elseif ($item->status_order == 'Kirim')
-                                        <td class="text-center"><span
-                                                class="btn btn-primary">Waiting Confirmation</span>
-                                        </td>
-                                        @elseif ($item->status_order == 'Selesai')
-                                        <td class="text-center"><span
-                                                class="btn btn-success">{{$item->status_order}}</span>
-                                        </td>
-                                        @else
-                                        <td class="text-center"><span
-                                                class="btn btn-danger">{{$item->status_order}}</span>
-                                        </td>
-                                        @endif
-                                        <td>
-                                            @if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG")
+                                            @endif
+                                            <td>{{$item->qty}}</td>
+                                            <td>{{$item->cabang}}</td>
                                             @if ($item->status_order == 'Request')
+
+                                            <td class="text-center"><span
+                                                    class="btn btn-warning">{{$item->status_order}}</span>
+                                            </td>
+                                            @elseif ($item->status_order == 'Kirim')
+                                            <td class="text-center"><?php $nomor = str_replace("/","-",$item->nomor_order);?>
+                                                <a href="{{url('/showArriveList',$nomor)}}" title="Confirmation"
+                                                    class="btn btn-info animate__animated animate__heartBeat animate__infinite"> <span class="icon text-white">
+                                                        <i class="fas fa-shipping-fast"></i> <span
+                                                            class="text-white">Confirmation</span>
+                                                    </span></a>
+                                            </td>
+                                            @elseif ($item->status_order == 'Selesai')
+                                            @if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG")
                                                 
-                                            <?php $nomor = str_replace("/","-",$item->nomor_order);?>    
-                                        <a href="{{route('productOrder.show',$nomor)}}"
-                                                title="Kirim? Klik saja" class="btn btn-warning animate__animated animate__heartBeat animate__infinite "> <span
-                                                    class="icon text-white">
-                                                    <i class="fas fa-shipping-fast"></i>
-                                                </span></a>
+                                            <td class="text-center"><span
+                                                    class="btn btn-success">{{$item->status_order}}</span>
+                                            </td>
                                             @else
-                                            <?php $nomor = str_replace("/","-",$item->nomor_order);?>    
-                                        <a href="{{route('productOrder.show',$nomor)}}"
-                                                title="Cek Detail" class="btn btn-info"> <span
-                                                    class="icon text-white">
-                                                    <i class="fas fa-eye"></i> <span class="text-white">Detail</span>
-                                                </span></a>
+                                            <td class="text-center"><span
+                                                    class="btn btn-success">{{date("Y-m-d", strtotime($item->tanggal_terima))}}</span>
+                                            </td>
                                             @endif
-                                          
                                             @else
-
-                                            <form action="{{route('productOrder.destroy',$item->id_product_order)}}"
-                                                method="post" class="d-inline">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btn-danger" title="Delete Data">
-                                                    <i class="fa fa-fw fa-trash"></i>
-                                            </form>
+                                            <td class="text-center"><span
+                                                    class="btn btn-danger">{{$item->status_order}}</span>
+                                            </td>
                                             @endif
-                                        </td>
+                                            <td>
+                                                @if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG")
+                                                @if ($item->status_order == 'Request')
 
-                                        </button>
+                                                <?php $nomor = str_replace("/","-",$item->nomor_order);?>
+                                                <a href="{{route('productOrder.show',$nomor)}}" title="Kirim? Klik saja"
+                                                    class="btn btn-warning animate__animated animate__heartBeat animate__infinite ">
+                                                    <span class="icon text-white">
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                    </span></a>
+                                                @else
+                                                <?php $nomor = str_replace("/","-",$item->nomor_order);?>
+                                                <a href="{{route('productOrder.show',$nomor)}}" title="Cek Detail"
+                                                    class="btn btn-info"> <span class="icon text-white">
+                                                        <i class="fas fa-eye"></i> <span
+                                                            class="text-white">Detail</span>
+                                                    </span></a>
+                                                @endif
+
+                                                @else
+
+                                                <!-- If jika waiting -->
+                                                @if ($item->status_order == 'Keranjang')
+                                                <form action="{{route('productOrder.destroy',$item->id_product_order)}}"
+                                                    method="post" class="d-inline">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button class="btn btn-danger" title="Delete Data">
+                                                        <i class="fa fa-fw fa-trash"></i>
+                                                </form>
+
+                                                @else
+                                                <a href="#" class="btn btn-info sabar">
+                                                    <span class="icon text-white">
+                                                        <i class="fas fa-eye"></i>
+                                                    </span>
+                                                </a>
+
+                                                @endif
+
+                                                @endif
+                                            </td>
+
+                                            </button>
                                     </tr>
                                     @empty
                                     <tr>
@@ -243,6 +268,15 @@
             // "order": [[ 0, "desc" ]]
 
         });
+
+        $('.sabar').on("click", function () {
+            Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Barang kamu sedang di proses!',
+//   footer: '<a href="">Why do I have this issue?</a>'
+})
+        })
     });
 
 </script>
