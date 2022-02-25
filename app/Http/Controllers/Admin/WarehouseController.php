@@ -21,12 +21,13 @@ class WarehouseController extends Controller
         ->leftjoin('v_order_products_user as v', 'v.id_distributor', '=', 'd.id_distributor')
         ->groupBy('d.nama_distributor')->get();
         $distr = DB::table('distributors')->get();
+        $cabs = DB::table('cabangs')->get();
 
    
 
         $cabangs = DB::table('v_order_products_user')
         ->select(array('*',DB::raw('COUNT(id_product_order) as orderan')))
-        // ->where('status_order', '!=','Keranjang')
+        ->where('status_order', '!=','Keranjang')
         ->groupBy('cabang')->get();
         
         return view('pages.admin.warehouse.index',[
@@ -34,6 +35,7 @@ class WarehouseController extends Controller
             'cabangs' => $cabangs,
             'distributors' => $distributors,
             'distr' => $distr,
+            'cabs' => $cabs,
 
            
         ]);

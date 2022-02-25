@@ -5,7 +5,7 @@
 
      <div class="row">
          <div class="col-xl-12 col-md-12 mb-4">
-             <div class="card card-waves mb-4">
+             <div class="card card-waves mb-4 card-svg">
                  <div class="card-body p-5">
                      <div class="row align-items-center justify-content-between">
                          <div class="col">

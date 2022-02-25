@@ -33,7 +33,7 @@ class HomeController extends Controller
         $costAll= DB::table('product_orders')->selectRaw('sum(harga_order) as total')->first();
         $pengeluarans = DB::table('v_order_user_cabang')->selectRaw('count(DISTINCT nomor_order) as totalOrder,sum(harga_order*qty) as total, cabang')->groupBy('cabang')->get();
         $pengeluaranBulanan = DB::table('v_order_user_cabang')->selectRaw('count(DISTINCT nomor_order) as totalOrder,sum(harga_order*qty) as total, cabang,limit_perbulan')->whereMonth('created_at',$this_month)->groupBy('cabang')->get();
-        $hariam = 0;
+        $harian = 0;
         if(empty($costPerDay->totalPerHari)){
             $harian = 0;
         }else{
