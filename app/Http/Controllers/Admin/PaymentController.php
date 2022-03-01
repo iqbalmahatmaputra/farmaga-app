@@ -18,7 +18,12 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $items = DB::table('v_stock_products_payments')->get();
+        $hutang_items = DB::table('v_stock_products_payments')->where('jenis','Kredit')->get();
+        return view('pages.admin.payment.index',[
+            'items' => $items,
+            'hutang_items' => $hutang_items
+        ]);
     }
 
     /**

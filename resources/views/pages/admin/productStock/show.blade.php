@@ -22,30 +22,32 @@
                 <!-- Collapsable Card Example -->
                 <div class="card border-left-dark shadow mb-4">
                     <!-- Card Header - Accordion -->
-                    <a href="#PBF" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                        aria-expanded="true" aria-controls="PBF">
-                        <h6 class="m-0 font-weight-bold text-primary">Data per PBF</h6>
+                    <a href="#trans" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                        aria-expanded="true" aria-controls="trans">
+                        <h6 class="m-0 font-weight-bold text-primary">Data Transaksi</h6>
                     </a>
                     <!-- Card Content - Collapse -->
-                    <div class="collapse show" id="PBF">
+                    <div class="collapse show" id="trans">
                         <div class="card-body">
-                            <p class="m-2">Ini adalah jumlah stok saat ini pada setiap <strong>PBF</strong>.</p>
+                            <p class="m-2">Data Transaksi yang berjalan selama ini.</p>
                             <table class="table table-bordered display-responsive">
                                 <thead>
                                     <tr>
-                                        <th>Distributor</th>
+                                        <th>Tanggal</th>
                                         <th>Jumlah</th>
+                                        <th>Nomor Order</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $total = 0;?>
-                                    @forelse ($pbf_items as $item)
+                                    @forelse ($trans as $item)
 
                                     <tr>
-                                        <td>{{$item->nama_distributor}}</td>
-                                        <td>{{$item->jumlahStok}}</td>
-                                        <?php $total += $item->jumlahStok;?>
+                                        <td>{{ Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
+                                        <td>{{$item->qty}}</td>
+                                        <td>{{$item->nomor_order}}</td>
+                                        <?php $total += $item->qty;?>
                                     </tr>
                                     @empty
                                     <tr>
@@ -58,6 +60,7 @@
                                     <tr>
                                         <th><strong>Total</strong></th>
                                         <th><strong>{{$total}}</strong></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -229,7 +232,7 @@
                                 @forelse ($items as $item)
     
                                 <tr>
-                                    <th>{{$item->created_at}}</th>
+                                    <th>{{ Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMMM Y') }}</th>
                                     <th>{{$item->qty_stock}}</th>
                                     <th>{{$item->nama_distributor}}</th>
                                 </tr>

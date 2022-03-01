@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Alert;
 
+
 class HomeController extends Controller
 {
     /**
@@ -27,6 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(Auth::check() && Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG"){
+
         $today = date('Y.m.d');
         $this_month = date('m');
         $costPerDay = DB::table('product_orders')->selectRaw('sum(harga_order) as totalPerHari')->where('created_at','like',$today)->first();
@@ -47,6 +50,9 @@ class HomeController extends Controller
         $nama = Auth::user()->name ;
         $title = 'Welcome Back, '.$nama;
         return view('pages.admin.dashboard',compact('title','harian','costAll','totalOrder','totalSelesaiOrder','totalPendingOrder','pengeluarans','pengeluaranBulanan','pbf'));
+    }else{
+        return redirect()->route('productOrder.index');
     }
+}
   
 }

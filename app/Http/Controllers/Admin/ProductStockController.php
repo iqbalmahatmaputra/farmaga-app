@@ -133,11 +133,13 @@ class ProductStockController extends Controller
         $harga_items = DB::table('v_harga_produk')->where('id_product',$id)->groupBy('nama_distributor')->get();
         // Cek total pengeluaran
         $order_items = DB::table('v_order_products_user')->selectRaw('cabang, sum(qty) as jumlah_order, sum(qty*harga_order) as total')->where('id_product',$id)->where('status_order','!=','Keranjang')->groupBy('cabang')->get();
+        // Cek per transaksi 
+        $trans = DB::table('v_order_user_cabang')->where('id_product',$id)->where('status_order','Selesai')->get();
 
         $products = $items[0]->nama_product;
         $title = "Product Details for ".$products;
 
-        return view('pages.admin.productStock.show',compact('items','title','pbf_items','harga_items','order_items'));
+        return view('pages.admin.productStock.show',compact('items','title','pbf_items','harga_items','order_items','trans'));
     }
     public function showDetail($id){
         $nomor = str_replace("-","/",$id);

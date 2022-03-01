@@ -46,7 +46,7 @@
                              ?>
                                  <tr>
                                      <td>{{$no++}}</td>
-                                     <td>{{ $item->created_at }}</td>
+                                     <td>{{ Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
                                      <td>{{ $item->nomor_order_stock}}</td>
                                      <td>{{ $item->jumlah_product}}</td>
                                      <td>{{ $item->jumlah}}</td>
@@ -58,7 +58,7 @@
                                      <td>{{ $item->status}} - {{ $item->nomor_faktur_pbf}}</td>
                                          
                                      @endif
-                                     <td>{{$item->jenis}}</td>
+                                     <td>{{$item->jenis}} - {{ $item->nama_pembayar}}</td>
                                      <td class="d-flex justify-content-center"><?php $nomor = str_replace("/","-",$item->nomor_order_stock);?>    
                                         <a href="{{url('showDetail/'.$nomor)}}"
                                                 title="Cek Detail" class="btn btn-info"> <span

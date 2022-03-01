@@ -38,9 +38,10 @@
           <div id="collapseWarehouse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Transaction Data</h6>
-                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Branch Orders List</a>
-                  <a class="collapse-item" href="{{route ('warehouse.index')}}">Order PBF (Stocks)</a>
-                  <a class="collapse-item" href="{{route ('productStock.index')}}">Product Stock</a>
+                  <a class="collapse-item" href="{{route ('productOrder.index')}}">List Order (Cabang)</a>
+                  <a class="collapse-item" href="{{route ('warehouse.index')}}">List Order (PBF)</a>
+                  <a class="collapse-item" href="{{route ('productStock.index')}}">List Stok Produk</a>
+                  <a class="collapse-item" href="{{route ('payment.index')}}">List Hutang</a>
 
               </div>
           </div>
@@ -54,14 +55,14 @@
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Custom Master Data</h6>
-                  <a class="collapse-item" href="{{route ('distributor.index')}}">Distributor List</a>
-                  <a class="collapse-item" href="{{route ('product.index')}}">Product List</a>
-                  <a class="collapse-item" href="{{route ('productPrice.index')}}">Product Price List</a>
-                  <a class="collapse-item" href="{{route ('cabang.index')}}">Cabang List</a>
+                  <a class="collapse-item" href="{{route ('distributor.index')}}">List Distributor </a>
+                  <a class="collapse-item" href="{{route ('product.index')}}">List Produk</a>
+                  <a class="collapse-item" href="{{route ('productPrice.index')}}">List Harga Produk</a>
+                  <a class="collapse-item" href="{{route ('cabang.index')}}">List Cabang</a>
               </div>
           </div>
       </li>
-      @elseif ( Auth::user()->roles == "ADMIN")
+    
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"

@@ -120,7 +120,7 @@
                     <div class="form-group">
                         <label for="product">Nomor Order</label>
                         <input type="text" name="nomor_order_stock" class="form-control" placeholder="{{$nomor}}" readonly
-                            value="{{$nomor}}">
+                        value="{{$nomor}}">
                     </div>
                     <div class="form-group">
                         <label for="product">Pilih Metode Pembayaran</label>
@@ -139,6 +139,7 @@
                         <input type="date" name="tanggal_pembayaran" class="form-control" placeholder="" value="{{date('Y-m-d')}}">
                     </div>
 
+                    <input type="hidden" name="nama_pembayar" value={{Auth::user()->name}} >
 
             </div>
             <div class="modal-footer">
@@ -169,6 +170,8 @@
                 @method('PUT')
 
                     @csrf
+                    <input type="hidden" name="nama_pembayar" value={{Auth::user()->name}} >
+
                     <div class="form-group">
                         <label for="product">Nomor Order</label>
                         <input type="text" name="nomor_order_stock" class="form-control" placeholder="{{$nomor}}" readonly

@@ -133,7 +133,7 @@
                                     <?php $total += $item->qty; $total_harga += $item->harga_order;?>
                                     <tr>
                                         <td>{{$no++}}</td>
-                                        <td>{{$item->created_at}}</td>
+                                        <td>{{ Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
                                         <td>{{$item->nomor_order}}</td>
 
                                         @if (Auth::user()->roles == "USER" )
