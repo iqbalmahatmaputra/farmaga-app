@@ -7,8 +7,8 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Product</h1>
-        <a href="{{route('product.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a>
+        <h1 class="h3 mb-0 text-gray-800">List Hutang</h1>
+        <!-- <a href="{{route('product.create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Data</a> -->
     </div>
 
     <div class="row">
@@ -44,7 +44,7 @@
                                     <td>{{ Carbon\Carbon::parse($item->tanggal_pembayaran)->isoFormat('dddd, D MMMM Y') }}</td>
                                     <td class="d-flex justify-content-around">
                                     <?php $nomor = str_replace("/","-",$item->nomor_order_stock);?> 
-                                    <a href="{{url('showDetail/'.$nomor)}}"
+                                <a href="{{url('showDetail/'.$nomor)}}"
                                                 title="Pembayaran" class="btn btn-warning animate__animated animate__heartBeat animate__infinite"> <span
                                                     class="icon text-white-50 ">
                                                     <i class="fas fa-credit-card"></i>
