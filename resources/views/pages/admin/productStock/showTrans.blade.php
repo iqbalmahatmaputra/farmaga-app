@@ -63,7 +63,7 @@
                 <?php  
                 $nomor_order_stock = str_replace("/","-",$nomor);
                 ?>
-                <form action="{{route('productStock.update',$nomor_order_stock)}}" method="post">
+                <form id="nomor_pbf" action="{{route('productStock.update',$nomor_order_stock)}}" method="post">
                      @method('PUT')
                      @csrf
                      <div class="row">
@@ -119,7 +119,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-
+        
         loadDataRequest();
         loadDataProses();
         //    Button Proses 
@@ -238,7 +238,7 @@
                             "</td>" +
                             "<td>" + row.harga +
                             "</td><td><button class='btn btn-warning batal' value='" + row
-                            .id_product_stock + "'>Batal</button>" +
+                            .id_product_stock + "'>Batal</button>" + 
                             "</td>";
                         bodyData2 += "</tr>";
 
@@ -257,3 +257,4 @@
 </script>
 <!-- /.container-fluid -->
 @endsection
+

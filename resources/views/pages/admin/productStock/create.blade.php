@@ -144,6 +144,7 @@
     $('.itemNameProduct').select2({
         placeholder: 'Pilih Produk',
         width: '100%',
+        
         ajax: {
             url: "{{url('cariDataStock/'.$item->id_distributor)}}",
             dataType: 'json',

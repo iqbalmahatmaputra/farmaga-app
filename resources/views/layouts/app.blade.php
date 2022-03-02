@@ -18,8 +18,10 @@
 
     <!-- Styles --> 
     <link href="{{ url('asset/css/app.css') }}" rel="stylesheet">
+    @include('includes/style')
+@include('includes/script')
 </head>
-<body>
+<body class="bg-primary">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

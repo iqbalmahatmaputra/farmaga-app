@@ -71,6 +71,7 @@ Route::prefix('admin')
     Route::resource('user','UserController');
     Route::resource('warehouse','WarehouseController');
     Route::resource('payment','PaymentController');
+    Route::resource('bantuan','BantuanController');
 
     
 

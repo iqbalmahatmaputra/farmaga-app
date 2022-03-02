@@ -4,8 +4,10 @@
                      $today = date('Y.m.d');
                      $jumlah_order =0;
                      $jumlah_datang =0;
+                     $jumlah_bantuan =0;
                      $nomor_order = sprintf("%03s", abs(Auth::user()->id_cabang))."/".Auth::user()->cabang."/".$today;
                      $jumlah_order = DB::table('v_order_products_user')->where('nomor_order',$nomor_order)->where('status_order','Keranjang')->count();
+                     $jumlah_bantuan = DB::table('requests')->where('status','Belum')->count();
                      $jumlah_datang = DB::table('v_order_user_cabang')->where('id_cabang',Auth::user()->id_cabang)->where('status_order','Kirim')->count()
                      ?>
           <!-- Sidebar Toggle (Topbar) -->
@@ -50,14 +52,14 @@
 
             <!-- Nav Item - Alerts -->
             <li class="nav-item dropdown no-arrow mx-1">
-            @if ($jumlah_order >= 1 || $jumlah_datang >= 1)
+            @if ($jumlah_order >= 1 || $jumlah_datang >= 1 || $jumlah_bantuan >= 1)
               <a class="nav-link dropdown-toggle animate__animated animate__tada animate__infinite" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @else
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   @endif
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">{{$jumlah_order+$jumlah_datang}}</span>
+                <span class="badge badge-danger badge-counter">{{$jumlah_order+$jumlah_datang+$jumlah_bantuan}}</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -71,7 +73,7 @@
                     </div>
                   </div>
                   <div>
-                    <div class="small text-gray-500"><?php echo date('l jS \of F Y ');?></div>
+                    <div class="small text-gray-500">{{Carbon\Carbon::today()->isoFormat('dddd, D MMMM Y')}}</div>
                     
                      @if ($jumlah_order >= 1)
                        
@@ -94,76 +96,29 @@
                   </div>
                 </a>
 @endif
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Butuh Bantuan: Cabang 3 membutuhkan pasokan Panadol dengan jumlah 12 piece segera
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+<?php
+$bantuan = DB::table('requests')->where('status','Belum')->get();
+?>
+@forelse ($bantuan as $item)
+<a class="dropdown-item d-flex align-items-center" href="{{route ('bantuan.index')}}">
+  <div class="mr-3">
+    <div class="icon-circle bg-warning">
+      <i class="fas fa-exclamation-triangle text-white"></i>
+    </div>
+  </div>
+  <div>
+    <div class="small text-gray-500">{{Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMMM Y') }}</div>
+    Butuh Bantuan: {{$item->nama_peminta}} membutuhkan pasokan {{$item->nama_product}} dengan jumlah {{$item->jumlah}} !
+  </div>
+</a>
+  
+@empty
+  
+@endforelse
+                <!-- <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a> -->
               </div>
             </li>
 
-            <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
-              <!-- Dropdown - Messages -->
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                    <div class="small text-gray-500">Emily Fowler · 58m</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                    <div class="status-indicator"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                    <div class="status-indicator bg-warning"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
-            </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>
 

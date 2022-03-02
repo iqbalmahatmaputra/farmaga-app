@@ -48,7 +48,8 @@ class ProductStockController extends Controller
         $items = DB::table('distributors')
         ->select('*')->where('id_distributor',$id)->get();
         $nama_distributor = $title->nama_distributor;
-        Alert::info('Perhatian', 'Harap tambahkan harga terlebih dahulu agar produk tampil sesuai distributor '.$nama_distributor.'');
+        // Alert::info('Perhatian', 'Produk yang tampil sesuai distributor '.$nama_distributor.'');
+        Alert::toast('Hanya menampilkan produk yang di Order saja', 'info');
 
         return view('pages.admin.productStock.create',[
             'items' => $items,
@@ -113,9 +114,10 @@ class ProductStockController extends Controller
         if($request->has('q')){
             $search = $request->q;
             
-                    $data = \DB::table('v_harga_produk')->select('id_product','nama_product as nama')
+                    $data = \DB::table('v_order_products')->select('id_product','nama_product as nama')
                     ->where('nama_product','LIKE',"%$search%")
                     ->where('id_distributor',$id)
+                    ->where('status_order','Request')
                     ->get();
         }
         return response()->json($data);

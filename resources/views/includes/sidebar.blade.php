@@ -95,7 +95,7 @@
               <div class="bg-white py-2 collapse-inner rounded">
                   <h6 class="collapse-header">Activity</h6>
                   <a class="collapse-item" href="{{route ('productOrder.index')}}">Order Products List</a>
-                  <a class="collapse-item" href="{{route ('productOrder.index')}}">Confirmation Products</a>
+                  <a class="collapse-item" href="{{route ('bantuan.index')}}">List Bantuan</a>
               </div>
           </div>
       </li>
