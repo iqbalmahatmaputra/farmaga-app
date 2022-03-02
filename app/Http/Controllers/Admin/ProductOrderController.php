@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\ProductOrder;
 use Alert;
+use Illuminate\Support\Facades\Redirect;
 
 
 
@@ -249,9 +250,21 @@ $this->getOrderData($nomor);
      */
     public function edit($id)
     {
-        //
+        $nomor = str_replace("-","/",$id);
+        $title = "Perubahan data ".$nomor;
+        $items = DB::table('v_order_products_user')->where('nomor_order',$nomor)->get();
+        return view('pages.admin.productOrder.edit',compact('items','title'));
+
     }
-   
+    public function updateOrder(Request $request,$id){
+        $data = array(
+            'qty' => $request->qty
+        );
+        DB::table('product_orders')->where('id_product_order',$id)->update($data);
+        // return Redirect::to('productOrder');
+        return redirect()->route('productOrder.index');
+
+    }
     public function updateToProses($id){
         DB::table('product_orders')->where('id_product_order',$id)->update(['status_order' => 'Kirim',
         'tanggal_kirim' => date('Y-m-d H:i:s')]);

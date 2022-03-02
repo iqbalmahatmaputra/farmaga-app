@@ -208,6 +208,11 @@
                                                     <span class="icon text-white">
                                                         <i class="fas fa-shipping-fast"></i>
                                                     </span></a>
+                                                    <a href="{{route('productOrder.edit',$nomor)}}" title="Ubah"
+                                                    class="btn btn-info ">
+                                                    <span class="icon text-white">
+                                                        <i class="fa fa-pencil-alt"></i>
+                                                    </span></a>
                                                 @else
                                                 <?php $nomor = str_replace("/","-",$item->nomor_order);?>
                                                 <a href="{{route('productOrder.show',$nomor)}}" title="Cek Detail"

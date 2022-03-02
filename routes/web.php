@@ -42,6 +42,7 @@ Route::get('/getOrderDataArrive/{id}','Admin\ProductOrderController@getOrderData
 Route::get('/getOrderDataAccept/{id}','Admin\ProductOrderController@getOrderDataAccept');
 Route::get('/updateToAccept/{id}','Admin\ProductOrderController@updateToAccept');
 Route::get('/updateToAcceptCancel/{id}','Admin\ProductOrderController@updateToAcceptCancel');
+Route::put('/updateOrder/{id}','Admin\ProductOrderController@updateOrder')->name('updateOrder');
 
 
 // ProductStock

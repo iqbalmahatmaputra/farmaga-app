@@ -7,7 +7,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Ubah Data Product {{$item->nama_product}}</h1>
+        <h1 class="h3 mb-0 text-gray-800">{{$title}}</h1>
         <a href="{{route('product.index')}}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i class="fas fa-back fa-sm text-white-50"></i> Batal</a>
     </div>
 
@@ -33,24 +33,28 @@
             @endif
 
 
+            @foreach ($items as $item)
                 <div class="card shadow">
                 <div class="card-body">
-                 <form action="{{route('product.update',$item->id_product)}}" method="post">
-                     @method('PUT')
-                     @csrf
-                     <div class="form-group">
-                         <label for="product">Nama Product</label>
-                         <input type="text" name="nama_product" class="form-control" placeholder="Nama Product" value="{{$item->nama_product}}">
-                     </div>
-                     <div class="form-group">
-                         <label for="product">Satuan Product</label>
-                         <input type="text" name="satuan_product" class="form-control" placeholder="satuan Product" value="{{$item->satuan_product}}">
-                     </div>
-                   
-                     <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                 </form>
-                 </div>
+                        
+                    <form action="{{route('updateOrder',$item->id_product_order)}}" method="post">
+                        @method('PUT')
+                        @csrf
+                        <div class="form-group">
+                            <label for="product">Nama Product - Distributor</label>
+                            <input type="text" name="nama_product" class="form-control" placeholder="Nama Product" value="{{$item->nama_product}} - {{$item->nama_distributor}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="product">Jumlah </label>
+                            <input type="text" name="qty" class="form-control" placeholder="Nama Product" value="{{$item->qty}}">
+                        </div>
+                       
+                      
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
                 </div>
+            </div>
+            @endforeach
             </div>
         </div>
     </div>
