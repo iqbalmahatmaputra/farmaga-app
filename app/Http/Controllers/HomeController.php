@@ -28,15 +28,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::check() && Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG"){
-
         $today = date('Y.m.d');
         $this_month = date('m');
+        $harian = 0;
+        $nama = Auth::user()->name ;
+        $title = 'Welcome Back, '.$nama;
+        if(Auth::check() && Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG"){
+
         $costPerDay = DB::table('product_orders')->selectRaw('sum(harga_order) as totalPerHari')->where('created_at','like',$today)->first();
         $costAll= DB::table('product_orders')->selectRaw('sum(harga_order) as total')->first();
         $pengeluarans = DB::table('v_order_user_cabang')->selectRaw('count(DISTINCT nomor_order) as totalOrder,sum(harga_order*qty) as total, cabang')->groupBy('cabang')->get();
         $pengeluaranBulanan = DB::table('v_order_user_cabang')->selectRaw('count(DISTINCT nomor_order) as totalOrder,sum(harga_order*qty) as total, cabang,limit_perbulan')->whereMonth('created_at',$this_month)->groupBy('cabang')->get();
-        $harian = 0;
         if(empty($costPerDay->totalPerHari)){
             $harian = 0;
         }else{
@@ -47,11 +49,19 @@ class HomeController extends Controller
             
             $totalPendingOrder = DB::table('v_order_products_user')->where('status_order','Request')->count();
             $totalSelesaiOrder = DB::table('v_order_products_user')->where('status_order','Selesai')->count();
-        $nama = Auth::user()->name ;
-        $title = 'Welcome Back, '.$nama;
         return view('pages.admin.dashboard',compact('title','harian','costAll','totalOrder','totalSelesaiOrder','totalPendingOrder','pengeluarans','pengeluaranBulanan','pbf'));
     }else{
-        return redirect()->route('productOrder.index');
+        $costPerDay = DB::table('v_order_products_user')->selectRaw('sum(harga_order) as totalPerHari')->where('created_at','like',$today)->where('cabang',Auth::user()->cabang)->first();
+        if(empty($costPerDay->totalPerHari)){
+            $harian = 0;
+        }else{
+            $harian = $costPerDay->totalPerHari;
+        }
+        $costAll= DB::table('v_order_products_user')->selectRaw('sum(harga_order) as total')->where('cabang',Auth::user()->cabang)->first();
+        $totalOrder = DB::table('v_order_products_user')->where('status_order', '!=','Keranjang')->where('cabang',Auth::user()->cabang)->count();
+        $totalPendingOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Request')->count();
+        $totalSelesaiOrder = DB::table('v_order_products_user')->where('cabang',Auth::user()->cabang)->where('status_order','Selesai')->count();
+        return view('pages.admin.dashboard',compact('title','harian','totalOrder','totalSelesaiOrder','totalPendingOrder','costAll'));
     }
 }
   

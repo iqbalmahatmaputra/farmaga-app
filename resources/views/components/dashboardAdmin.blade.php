@@ -5,7 +5,7 @@
 
      <div class="row">
          <div class="col-xl-12 col-md-12 mb-4">
-             <div class="card card-waves mb-4 card-svg">
+             <div class="card card-waves mb-4 card-svg animate__animated animate__fadeInDown">
                  <div class="card-body p-5">
                      <div class="row align-items-center justify-content-between">
                          <div class="col">
@@ -28,7 +28,7 @@
 
          <!-- Earnings (Monthly) Card Example -->
          <div class="col-xl-3 col-md-6 mb-4">
-             <div class="card border-left-primary shadow h-100 py-2">
+             <div class="card border-left-primary shadow h-100 py-2 animate__animated animate__backInLeft ">
                  <div class="card-body">
                      <div class="row no-gutters align-items-center">
                          <div class="col mr-2">
@@ -45,7 +45,7 @@
 
          <!-- Earnings (Monthly) Card Example -->
          <div class="col-xl-3 col-md-6 mb-4">
-             <div class="card border-left-success shadow h-100 py-2">
+             <div class="card border-left-success shadow h-100 py-2 animate__animated animate__backInLeft animate__delay-1s">
                  <div class="card-body">
                      <div class="row no-gutters align-items-center">
                          <div class="col mr-2">
@@ -62,7 +62,7 @@
 
          <!-- Earnings (Monthly) Card Example -->
          <div class="col-xl-3 col-md-6 mb-4">
-             <div class="card border-left-info shadow h-100 py-2">
+             <div class="card border-left-info shadow h-100 py-2  animate__animated animate__backInLeft animate__delay-2s">
                  <div class="card-body">
                      <div class="row no-gutters align-items-center">
                          <div class="col mr-2">
@@ -92,7 +92,7 @@
 
          <!-- Pending Requests Card Example -->
          <div class="col-xl-3 col-md-6 mb-4">
-             <div class="card border-left-warning shadow h-100 py-2">
+             <div class="card border-left-warning shadow h-100 py-2  animate__animated animate__backInLeft animate__delay-3s">
                  <div class="card-body">
                      <div class="row no-gutters align-items-center">
                          <div class="col mr-2">
@@ -113,6 +113,8 @@
 
  </div>
  <!-- /.container-fluid -->
+@if (Auth::user()->roles == "ADMIN" || Auth::user()->roles == "GDG")
+    
 
  <div class="container-fluid">
      <h1 class="h3 p-2 text-gray-800">Pengeluaran Percabang</h1>
@@ -297,9 +299,9 @@
                          </table>
                      </div>
                  </div>
-             </div>
-         </div>
-         
-     </div>
-
- </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    @endif

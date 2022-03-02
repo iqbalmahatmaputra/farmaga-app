@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('auth.login');
 });
+Route::middleware('isActive')->group(function(){
 // Data AJax routes
 Route::get('/cariData', 'Admin\ProductController@dataAjax')->name('cariData');
 Route::get('/cariDataProductAja', 'Admin\ProductPriceController@dataAjaxProduct')->name('cariDataProductAja');
@@ -54,7 +55,7 @@ Route::get('/getTransRequest/{id}','Admin\ProductStockController@getTransRequest
 Route::get('/getTransArrive/{id}','Admin\ProductStockController@getTransArrive');
 Route::get('/updateToTransArrive/{id}','Admin\ProductStockController@updateToTransArrive');
 Route::get('/updateToTransRequest/{id}','Admin\ProductStockController@updateToTransRequest');
-
+});
 
 Route::prefix('admin')
 ->namespace('Admin')

@@ -12,28 +12,15 @@
     </div>
 
     <div class="row">
-
+        <?php $no =1;?>
+        @foreach ($items as $item)
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-12 col-md-12 mb-4">
+        <div class="col-xl-4 col-md-4 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Product</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Data Order ke {{$no++}}</h6>
                 </div>
 
-            @if ($errors->any()) 
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                        
-                    @endforeach
-                </ul>
-            </div>
-                
-            @endif
-
-
-            @foreach ($items as $item)
                 <div class="card shadow">
                 <div class="card-body">
                         
@@ -54,9 +41,9 @@
                     </form>
                 </div>
             </div>
-            @endforeach
-            </div>
         </div>
+    </div>
+    @endforeach
     </div>
 
 

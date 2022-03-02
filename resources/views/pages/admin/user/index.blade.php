@@ -62,14 +62,34 @@
                                     @endif
                                     
                                     <td>
+                                        @if ($item->roles == "USER")
+                                            
+                                        <form action="{{route('user.update',$item->id)}}"
+                                                method="post" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="roles"  value="GDG">
+                                                <button class="btn btn-secondary mr-2" title="Gudang">
+                                                    <i class="fas fa-fw fa-boxes"></i>
+                                                </form>
+                                        @else
+                                        <form action="{{route('user.update',$item->id)}}"
+                                                method="post" class="d-inline">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="roles"  value="USER">
+                                                <button class="btn btn-primary mr-2" title="Pegawai">
+                                                    <i class="fas fa-fw fa-user"></i>
+                                                </form>
+                                        @endif
                                     @if ($item->status == 1 ) 
                                     <form action="{{route('user.update',$item->id)}}"
                                             method="post" class="d-inline">
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="status"  value="0">
-                                            <button class="btn btn-danger">
-                                                Deactivate <i class="fa fa-fw fa-pencil-alt"></i>
+                                            <button class="btn btn-danger mr-2">
+                                                <i class="fa fa-fw fa-toggle-off" title="De-Active"></i>
                                             </form>
                                             @else
                                             <form action="{{route('user.update',$item->id)}}"
@@ -77,8 +97,8 @@
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="status"  value="1">
-                                            <button class="btn btn-success">
-                                                Active <i class="fa fa-fw fa-pencil-alt"></i>
+                                            <button class="btn btn-success mr-2" title="Active">
+                                                <i class="fa fa-fw fa-toggle-on"></i>
                                             </form>
                                             @endif
                      </td>
