@@ -18,7 +18,7 @@
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-header py-3 d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Data Order</h6>
-                    <a href="{{url('/detailOrder',$nama->id_distributor)}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Order ke PFB</a>
+                    <a href="{{url('/detailOrder2',$nama->id_distributor)}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Order ke PFB</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
