@@ -70,7 +70,7 @@
                                                 @method('PUT')
                                                 <input type="hidden" name="roles"  value="GDG">
                                                 <button class="btn btn-secondary mr-2" title="Gudang">
-                                                    <i class="fas fa-fw fa-boxes"></i>
+                                                    <i class="fas fa-fw fa-user"></i>
                                                 </form>
                                         @else
                                         <form action="{{route('user.update',$item->id)}}"
@@ -79,7 +79,7 @@
                                                 @method('PUT')
                                                 <input type="hidden" name="roles"  value="USER">
                                                 <button class="btn btn-primary mr-2" title="Pegawai">
-                                                    <i class="fas fa-fw fa-user"></i>
+                                                    <i class="fas fa-fw fa-boxes"></i>
                                                 </form>
                                         @endif
                                     @if ($item->status == 1 ) 
@@ -88,8 +88,8 @@
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="status"  value="0">
-                                            <button class="btn btn-danger mr-2">
-                                                <i class="fa fa-fw fa-toggle-off" title="De-Active"></i>
+                                            <button class="btn btn-success mr-2">
+                                                <i class="fa fa-fw fa-toggle-on" title="De-Active"></i>
                                             </form>
                                             @else
                                             <form action="{{route('user.update',$item->id)}}"
@@ -97,8 +97,8 @@
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="status"  value="1">
-                                            <button class="btn btn-success mr-2" title="Active">
-                                                <i class="fa fa-fw fa-toggle-on"></i>
+                                            <button class="btn btn-danger mr-2" title="Active">
+                                                <i class="fa fa-fw fa-toggle-off"></i>
                                             </form>
                                             @endif
                      </td>

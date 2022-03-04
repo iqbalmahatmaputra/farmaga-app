@@ -27,6 +27,7 @@ Route::get('6yt5fr5t6', 'ChartController@statusOrder')->name('grafik.transaksi.s
 Route::get('/cariDataProductPBF', 'Admin\WarehouseController@dataAjaxProduct')->name('cariDataProductPBF');
 Route::get('/detailDist/{id_distributor}','Admin\WarehouseController@detailDist');
 Route::get('/detailOrder/{id_distributor}','Admin\ProductStockController@detailOrder');
+Route::get('/detailOrder2/{id_distributor}','Admin\ProductStockController@detailOrder2');
 
 // ProductOrder
 Route::get('/cariDataProduct', 'Admin\ProductOrderController@dataAjaxProduct')->name('cariDataProduct');
@@ -55,6 +56,9 @@ Route::get('/getTransRequest/{id}','Admin\ProductStockController@getTransRequest
 Route::get('/getTransArrive/{id}','Admin\ProductStockController@getTransArrive');
 Route::get('/updateToTransArrive/{id}','Admin\ProductStockController@updateToTransArrive');
 Route::get('/updateToTransRequest/{id}','Admin\ProductStockController@updateToTransRequest');
+Route::get('/batalOrderStock/{id}','Admin\ProductStockController@batalOrderStock');
+Route::get('/getProductList/{id}','Admin\ProductStockController@getProductList');
+
 });
 
 Route::prefix('admin')

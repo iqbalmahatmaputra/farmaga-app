@@ -57,6 +57,40 @@ class ProductStockController extends Controller
 
         ]);
     }
+    // Order dengan menampilkan barang dan produk sesuai yang di request cabang
+    public function detailOrder2($id)
+    {
+        $today = date('Y.m.d');
+        $hariOrder = date('Y-m-d');
+        $distributor = DB::table('distributors')->where('id_distributor', $id)->first();
+        $nama_dist = substr($distributor->nama_distributor,0,5);
+        $satu = 1;
+        $nomoor = DB::table('product_stocks')->where('id_distributor',$id)->groupBy('nomor_order_stock')->first();
+        $order = $nomoor->nomor_order_stock;
+        $urut= substr($order,2,1);
+        $nomor_order_stock = sprintf("%03s", abs($urut + $satu))."/".$nama_dist."/".$today;
+
+
+        $title = DB::table('v_order_products_user')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
+        $items = DB::table('distributors')
+        ->select('*')->where('id_distributor',$id)->get();
+        $nama_distributor = $title->nama_distributor;
+        $data = DB::table('v_order_products')
+        ->selectRaw('sum(qty) as total, nama_product, harga_order, id_product, id_distributor, id_product_order,status_order')
+        ->where('id_distributor',$id)
+        ->where('status_order',"Request")
+        ->groupBy('nama_product')
+        ->get();
+        Alert::toast('Hanya menampilkan produk yang di Order saja', 'info');
+
+        return view('pages.admin.productStock.create2',[
+            'items' => $items,
+            'title' => $title,
+            'nomor_order_stock' => $nomor_order_stock,
+            'data' => $data
+
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -66,7 +100,15 @@ class ProductStockController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+
+    	DB::table('product_stocks')->insert($data);
+        
+        return json_encode(array(
+            "statusCode"=>200
+        ));
+
+        
     }
     public function AddMoreStock(Request $request){
         $today = date('Y.m.d');
@@ -168,6 +210,15 @@ class ProductStockController extends Controller
             ->get();
         return json_encode(array('data'=>$items));
     }
+    public function getProductList($id){
+        $nomor = str_replace("-","/",$id);
+        
+        $items = DB::table('v_stock_products')
+            ->where('nomor_order_stock',$nomor)
+            // ->where('status',"Request")
+            ->get();
+        return json_encode(array('data'=>$items));
+    }
     public function getTransArrive($id){
         $nomor = str_replace("-","/",$id);
         $items = DB::table('v_stock_products')
@@ -182,6 +233,10 @@ class ProductStockController extends Controller
     }
     public function updateToTransRequest($id){
         DB::table('product_stocks')->where('id_product_stock',$id)->update(['status' => 'Request']);
+        return json_encode(array('statusCode'=>200));
+    }
+    public function batalOrderStock($id){
+        DB::table('product_stocks')->where('id_product_stock',$id)->delete();
         return json_encode(array('statusCode'=>200));
     }
     /**
