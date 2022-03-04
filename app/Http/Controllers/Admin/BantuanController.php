@@ -47,6 +47,13 @@ class BantuanController extends Controller
     public function store(Request $request)
     {
         $data =$request->except(['_token', '_method' ]);
+        $log = array(
+            'action' => 'Meminta',
+            'description' => 'Meminta Bantuan '.$request->nama_product,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
 
         DB::table('requests')->insert($data);
         Alert::toast('Data Berhasil ditambahkan', 'success');
@@ -89,6 +96,13 @@ class BantuanController extends Controller
             'nama_pemberi' => Auth::user()->cabang,
             'replied_at' => date('Y-m-d H:i:s')
         );
+        $log = array(
+            'action' => 'Memeberi',
+            'description' => 'Memberi Bantuan '.$id,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
         
 
         DB::table('requests')->where('id_request',$id)->update($data);
@@ -107,6 +121,13 @@ class BantuanController extends Controller
     public function destroy($id)
     {
         Alert::toast('Data Berhasil dihapus', 'success');
+        $log = array(
+            'action' => 'Menghapus',
+            'description' => 'Menghapus Bantuan '.$id,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
         
         DB::table('requests')->where('id_request',$id)->delete();
 

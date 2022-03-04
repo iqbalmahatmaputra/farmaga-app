@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Distributor;
 use App\Http\Requests\Admin\DistributorRequest;
 use Illuminate\Support\Str;
+use DB;
+use Illuminate\Support\Facades\Auth;
+use Alert;
 
 class DistributorController extends Controller
 {
@@ -44,7 +47,13 @@ class DistributorController extends Controller
     public function store(DistributorRequest $request)
     {
         Alert::toast('Data Berhasil ditambahkan', 'success');
-
+        $log = array(
+            'action' => 'Menambahkan',
+            'description' => 'Menambahkan distributor '.$request->nama_distributor,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
         $data = $request->all();
         Distributor::create($data);
         return redirect()->route('distributor.index');
@@ -88,6 +97,13 @@ class DistributorController extends Controller
 
         // $item = \DB::table('distributors')->where('id_distributor',$id_distributor)->first();
         // $item->update($data);   
+        $log = array(
+            'action' => 'Merubah',
+            'description' => 'Merubah data '.$request->nama_distributor,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
         Alert::toast('Data Berhasil diubah', 'success');
 
        $item =  \DB::table('distributors')->where('id_distributor',$id_distributor)->update($data);
@@ -103,6 +119,13 @@ class DistributorController extends Controller
     public function destroy( $id)
     {
         Alert::toast('Data Berhasil dihapus', 'success');
+        $log = array(
+            'action' => 'Menghapus',
+            'description' => 'Menghapus data '.$request->nama_distributor,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
 
         \DB::table('distributors')->where('id_distributor',$id)->delete();
 
