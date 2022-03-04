@@ -104,6 +104,28 @@ class ProductStockController extends Controller
 
     	DB::table('product_stocks')->insert($data);
         
+        $hariOrder = date('Y-m-d');
+
+        $total_harga = DB::table('v_stock_products_groupby')->select('total_harga')->where('nomor_order_stock',$request->nomor_order_stock)->first();
+        $cekPayment = DB::table('payments')->where('nomor_order_stock',$request->nomor_order_stock)->first();
+ 
+      
+              $dataSet[] = [
+                  'nomor_order_stock'  => $request->nomor_order_stock,
+                  'jenis'    => 'Belum',
+                  'total_harga'       => $total_harga->total_harga,
+                  'tanggal_pembayaran' => $hariOrder,
+              ];
+              if($cekPayment === NULL){
+                  DB::table('payments')->insert($dataSet);
+                  
+                }else{
+                DB::table('payments')->where('nomor_order_stock',$request->nomor_order_stock)->update(array( 
+               'nomor_order_stock'  => $request->nomor_order_stock,
+                'jenis'    => 'Belum',
+                'total_harga'       => $total_harga->total_harga,
+                'tanggal_pembayaran' => $hariOrder,));
+            }
         return json_encode(array(
             "statusCode"=>200
         ));
@@ -137,6 +159,8 @@ class ProductStockController extends Controller
                 $save->status = 'Request';
                 $save->save();
             }
+        // $hariOrder = date('Y-m-d');
+
   $total_harga = DB::table('v_stock_products_groupby')->select('total_harga')->where('nomor_order_stock',$nomor_order_stock)->first();
         $dataSet[] = [
             'nomor_order_stock'  => $nomor_order_stock,
@@ -144,7 +168,7 @@ class ProductStockController extends Controller
             'total_harga'       => $total_harga->total_harga,
             'tanggal_pembayaran' => $hariOrder,
         ];
-            \DB::table('payments')->insert($dataSet);
+            DB::table('payments')->insert($dataSet);
         
             toast('Data berhasil dimasukkan pada nomor '.$nomor_order_stock.'','success');
         return redirect()->route('warehouse.index');
@@ -236,7 +260,19 @@ class ProductStockController extends Controller
         return json_encode(array('statusCode'=>200));
     }
     public function batalOrderStock($id){
-        DB::table('product_stocks')->where('id_product_stock',$id)->delete();
+        $nomor = DB::table('product_stocks')->where('id_product_stock',$id)->first();
+        $cekPayment = DB::table('payments')->where('nomor_order_stock',$nomor->nomor_order_stock)->first();
+        $total_harga = DB::table('v_stock_products_groupby')->select('total_harga')->where('nomor_order_stock',$nomor->nomor_order_stock)->first();
+        $hariOrder = date('Y-m-d');
+        $pengurangan = $nomor->harga*$nomor->qty_stock;
+    
+            DB::table('payments')->where('nomor_order_stock',$nomor->nomor_order_stock)->update(array( 
+                'nomor_order_stock'  => $nomor->nomor_order_stock,
+                'jenis'    => 'Belum',
+                'total_harga'       => $total_harga->total_harga - $pengurangan,
+                'tanggal_pembayaran' => $hariOrder));
+            
+            DB::table('product_stocks')->where('id_product_stock',$id)->delete();
         return json_encode(array('statusCode'=>200));
     }
     /**

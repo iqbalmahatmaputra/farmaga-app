@@ -36,27 +36,32 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; 
-                            ?>
-                                    @forelse ($data as $data)
+                                    foreach ($data as $data) {
+                                    ?>
                                     <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
-                                    <input type="hidden" id="id_product" name="id_product" value="{{$data->id_product}}" />
-                                    <input type="hidden" id="id_distributor"  name="id_distributor" value="{{$data->id_distributor}}" />
-                                    <input type="hidden" id="harga"  name="harga" value="{{$data->harga_order}}" />
-                                    <input type="hidden" id="nomor_order_stock"  name="nomor_order_stock" value="{{$nomor_order_stock}}" />
-                                    <input type="hidden" id="status"  name="status" value="Request" />
+                                    <input type="hidden" id="id_product{{$no}}" name="id_product" value="{{$data->id_product}}" />
+                                    <input type="hidden" id="id_distributor{{$no}}"  name="id_distributor" value="{{$data->id_distributor}}" />
+                                    <input type="hidden" id="harga{{$no}}"  name="harga" value="{{$data->harga_order}}" />
+                                    <input type="hidden" id="nomor_order_stock{{$no}}"  name="nomor_order_stock" value="{{$nomor_order_stock}}" />
+                                    <input type="hidden" id="status{{$no}}"  name="status" value="Request" />
                                         <tr>
-                                            <td class="align-middle">{{$no++}}</td>
+                                            <td class="align-middle">{{$no}}</td>
                                             <td class="align-middle">{{$data->nama_product}}</td>
                                             <td class="align-middle"><input type="number" class="form-control text-center"
-                                                    name="qty_stock" id="qty_stock" value="{{$data->total}}" /></td>
-                                            <td class="align-middle"><button type="submit" id="tambahStock" class="btn btn-primary">Pilih</button></td>
+                                                    name="qty_stock" id="qty_stock{{$no}}" value="{{$data->total}}" /></td>
+                                            <td class="align-middle">
+                                                <button type="submit" onclick="myFunction({{$no}})" class="btn btn-primary">Pilih</button>
+                                            </td>
                                         </tr>
-                                  
-                                    @empty
-                                    <tr>
+                                    <?php
+                                    $no++;
+                                    }
+                                    ?>
+                                    {{-- <tr>
                                         <td colspan="5" class="align-middle text-center">Tidak ada Order</td>
-                                    </tr>
-                                    @endforelse
+                                    </tr> --}}
+                                   
+                                    
 
                                 </tbody>
                             </table>
@@ -90,8 +95,13 @@
                                 </tbody>
                             </table>
                         </div>
+                        <?php $nomor = str_replace("/","-",$nomor_order_stock); ?>
+                        <a href="{{url('showDetail/'.$nomor)}}" class="btn btn-primary float-right mr-3 text-white"><span class="icon text-white">
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                    </span>Pesan Sekarang</a>
                     </div>
                 </div>
+               
             </div>
         </div>
     </div>
@@ -102,19 +112,17 @@
     $(document).ready(function () {
         loadDataRequest();
         
-      
     });
 
     // Jika klik tambahStock
-    $('#tambahStock').on('click', function() {
+    function myFunction(id) {
         
-      var id_product = $('#id_product').val();
-      var id_distributor = $('#id_distributor').val();
-      var harga = $('#harga').val();
-      var nomor_order_stock = $('#nomor_order_stock').val();
-      var status = $('#status').val();
-      var qty_stock = $('#qty_stock').val();
-        /*  $("#butsave").attr("disabled", "disabled"); */
+      var id_product = $('#id_product'+id).val();
+      var id_distributor = $('#id_distributor'+id).val();
+      var harga = $('#harga'+id).val();
+      var nomor_order_stock = $('#nomor_order_stock'+id).val();
+      var status = $('#status'+id).val();
+      var qty_stock = $('#qty_stock'+id).val();
           $.ajax({
               url: "{{route('productStock.store')}}",
               type: "POST",
@@ -144,7 +152,7 @@
           });
           loadDataRequest();
 
-  });
+  }
     // End
     // Button Batalkan
     $(document).on("click", ".batal", function () {
