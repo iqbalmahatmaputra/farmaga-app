@@ -53,7 +53,9 @@
                                         </tr>
                                   
                                     @empty
-
+                                    <tr>
+                                        <td colspan="5" class="align-middle text-center">Tidak ada Order</td>
+                                    </tr>
                                     @endforelse
 
                                 </tbody>
@@ -128,7 +130,6 @@
               },
               cache: false,
               success: function(dataResult){
-                  console.log(dataResult);
                   var dataResult = JSON.parse(dataResult);
                   if(dataResult.statusCode==200){
                     
@@ -181,7 +182,7 @@
                 cache: false,
                 dataType: 'json',
                 success: function (dataResult) {
-                    console.log(dataResult);
+                    // console.log(dataResult);
                     var resultData = dataResult.data;
                     var bodyData = '';
                     var i = 1;
