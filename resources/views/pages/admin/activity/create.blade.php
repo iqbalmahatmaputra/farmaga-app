@@ -36,29 +36,27 @@
 
                 <div class="card shadow">
                     <div class="card-body">
-                        <form action="{{route('cabang.store')}}" method="post">
+                        <form action="{{route('product.store')}}" method="post">
                             @csrf
                             <div class="form-group">
-                                <label for="cabang">Nama Cabang</label>
-                                <input type="text" name="nama_cabang" class="form-control" placeholder="Nama cabang"
-                                    value="{{old('nama_cabang')}}">
+                                <label for="product">Nama product</label>
+                                <input type="text" name="nama_product" class="form-control" placeholder="Nama product"
+                                    value="{{old('nama_product')}}">
                             </div>
                             <div class="form-group">
-                                <label for="cabang">Lokasi Cabang</label>
-                                <input type="text" name="lokasi" class="form-control" placeholder="Lokasi"
-                                    value="{{old('lokasi')}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="limit_perhari">Limit Perhari</label>
-                                <input type="number" name="limit_perhari" class="form-control" 
-                                    value="{{old('limit_perhari')}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="limit_perbulan">Limit Perbulan</label>
-                                <input type="number" name="limit_perbulan" class="form-control" 
-                                    value="{{old('limit_perbulan')}}">
-                            </div>
+                                <label for="product">Satuan product</label>
+                                <!-- <input type="search" name="satuan_product" class="form-control" placeholder="satuan product" value="{{old('satuan_product')}}"> -->
+
+                                <select class="form-control" name="satuan_product">
                            
+
+                                  @forelse ($items as $item)
+                                    <option value="{{$item->satuan_product}}">{{$item->satuan_product}}</option>
+                                  @empty
+                                    <option value="{{$item->satuan_product}}">Belum ada satuan</option>
+                                  @endforelse
+                                </select>
+                            </div>
 
                             <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                         </form>

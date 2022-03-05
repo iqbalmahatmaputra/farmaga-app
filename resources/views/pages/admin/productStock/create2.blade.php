@@ -57,9 +57,9 @@
                                     $no++;
                                     }
                                     ?>
-                                    {{-- <tr>
+                                    <tr>
                                         <td colspan="5" class="align-middle text-center">Tidak ada Order</td>
-                                    </tr> --}}
+                                    </tr> 
                                    
                                     
 

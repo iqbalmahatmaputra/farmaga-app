@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use DB;
+use Alert;
 
 class CabangController extends Controller
 {
@@ -30,7 +32,10 @@ class CabangController extends Controller
      */
     public function create()
     {
-        //
+        $items = DB::table('cabangs')->get();
+        return view('pages.admin.cabang.create',[
+            'items' => $items
+        ]);
     }
 
     /**
@@ -41,7 +46,17 @@ class CabangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data =$request->except(['_token', '_method' ]);
+        $log = array(
+            'action' => 'Menambahkan',
+            'description' => 'Menambahkan Cabang '.$request->nama_cabang,
+            'id_user' => Auth::user()->id,
+            'nama_user' => Auth::user()->name
+        );
+        DB::table('activity_logs')->insert($log);
+        DB::table('cabangs')->insert($data);
+        Alert::toast('Data Berhasil ditambahkan', 'success');
+        return redirect()->route('cabang.index');
     }
 
     /**

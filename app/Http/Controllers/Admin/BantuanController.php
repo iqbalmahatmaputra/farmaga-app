@@ -97,7 +97,7 @@ class BantuanController extends Controller
             'replied_at' => date('Y-m-d H:i:s')
         );
         $log = array(
-            'action' => 'Memeberi',
+            'action' => 'Memberi',
             'description' => 'Memberi Bantuan '.$id,
             'id_user' => Auth::user()->id,
             'nama_user' => Auth::user()->name

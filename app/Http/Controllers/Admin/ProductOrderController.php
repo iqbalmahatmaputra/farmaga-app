@@ -196,6 +196,16 @@ class ProductOrderController extends Controller
 $this->getOrderData($nomor);
         return view('pages.admin.productOrder.show',compact('items','title','id','cabang'));
     }
+    public function showDetailOrders($id){
+        $nomor = str_replace("-","/",$id);
+            $title = "List Details for ".$nomor;
+            $items = DB::table('v_order_products_user')
+            ->where('nomor_order',$nomor)
+            ->get();
+        return view('pages.admin.productOrder.show2',compact('items','title','nomor'));
+
+    
+    }
     public function showArriveList($id)
     {
         $nomor = str_replace("-","/",$id);

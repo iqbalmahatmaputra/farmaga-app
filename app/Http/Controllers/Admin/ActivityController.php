@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use DB;
+Use Alert;
 
 class ActivityController extends Controller
 {
@@ -14,7 +17,10 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        //
+        $items = DB::table('activity_logs')->get();
+        return view('pages.admin.activity.index',[
+            'items' => $items
+        ]);
     }
 
     /**

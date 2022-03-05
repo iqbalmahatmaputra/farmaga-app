@@ -133,7 +133,7 @@
                                     <?php $total += $item->qty; $total_harga += $item->harga_order;?>
                                     <tr>
                                         <td>{{$no++}}</td>
-                                        <td>{{ Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMMM Y') }}</td>
+                                        <td>{{ Carbon\Carbon::parse($item->created_at)->isoFormat('D MMMM Y, dddd') }}</td>
                                         <td>{{$item->nomor_order}}</td>
 
                                         @if (Auth::user()->roles == "USER" )
@@ -141,11 +141,21 @@
                                         <td>Tidak dapat dilihat</td>
                                         @else
                                         <td>
+                                            @if ($item->status_order != 'Selesai')
+                                                
                                             <?php $nomor = str_replace("/","-",$item->nomor_order);?>
                                             <a href="{{route('productOrder.show',$nomor)}}" title="Cek Detail"
                                                 class="btn btn-info"> <span class="icon text-white-50">
                                                     <i class="fas fa-eye"></i>
                                                 </span></a></td>
+                                                @else
+                                                <?php $nomor = str_replace("/","-",$item->nomor_order);?>   
+                                                <a href="{{url('/showDetailOrders',$nomor)}}" class="btn btn-info sabar">
+                                                    <span class="icon text-white">
+                                                        <i class="fas fa-eye"></i>
+                                                    </span>
+                                                </a>
+                                            @endif
                                         <!-- cek limit -->
                                         @if ($item->harga_order <= $item->limit_perhari)
 
@@ -215,7 +225,7 @@
                                                     </span></a>
                                                 @else
                                                 <?php $nomor = str_replace("/","-",$item->nomor_order);?>
-                                                <a href="{{route('productOrder.show',$nomor)}}" title="Cek Detail"
+                                                <a href="{{url('/showDetailOrders',$nomor)}}" title="Cek Detail"
                                                     class="btn btn-info"> <span class="icon text-white">
                                                         <i class="fas fa-eye"></i> <span
                                                             class="text-white">Detail</span>
@@ -235,7 +245,8 @@
                                                 </form>
 
                                                 @else
-                                                <a href="#" class="btn btn-info sabar">
+                                                <?php $nomor = str_replace("/","-",$item->nomor_order);?>   
+                                                <a href="{{url('/showDetailOrders',$nomor)}}" class="btn btn-info sabar">
                                                     <span class="icon text-white">
                                                         <i class="fas fa-eye"></i>
                                                     </span>
@@ -281,7 +292,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            // "order": [[ 0, "desc" ]]
+            "order": [[ 1, "desc" ]]
 
         });
 

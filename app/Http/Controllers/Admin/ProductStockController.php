@@ -65,13 +65,14 @@ class ProductStockController extends Controller
         $distributor = DB::table('distributors')->where('id_distributor', $id)->first();
         $nama_dist = substr($distributor->nama_distributor,0,5);
         $satu = 1;
-        $nomoor = DB::table('product_stocks')->where('id_distributor',$id)->groupBy('nomor_order_stock')->first();
+        $nomoor = DB::table('product_stocks')->orderBy('id_product_stock','desc')->first();
+        // DB::table('product_stocks')->distinct()->count('nomor_order_stock');
         $order = $nomoor->nomor_order_stock;
         $urut= substr($order,2,1);
         $nomor_order_stock = sprintf("%03s", abs($urut + $satu))."/".$nama_dist."/".$today;
 
 
-        $title = DB::table('v_order_products_user')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
+        $title = DB::table('distributors')->select('nama_distributor','id_distributor')->where('id_distributor',$id)->first();
         $items = DB::table('distributors')
         ->select('*')->where('id_distributor',$id)->get();
         $nama_distributor = $title->nama_distributor;

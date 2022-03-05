@@ -36,6 +36,7 @@ Route::post('/AddMoreOrder', 'Admin\ProductOrderController@AddMoreOrder')->name(
 Route::post('/CheckOutAll', 'Admin\ProductOrderController@CheckOutAll')->name('CheckOutAll');
 Route::get('/getOrderData/{id}','Admin\ProductOrderController@getOrderData');
 Route::get('/getOrderDataProses/{id}','Admin\ProductOrderController@getOrderDataProses');
+Route::get('/showDetailOrders/{id}','Admin\ProductOrderController@showDetailOrders');
 Route::get('/updateToProses/{id}','Admin\ProductOrderController@updateToProses');
 Route::get('/updateToProsesBatal/{id}','Admin\ProductOrderController@updateToProsesBatal');
 // Confirmation Arrive
@@ -78,6 +79,7 @@ Route::prefix('admin')
     Route::resource('warehouse','WarehouseController');
     Route::resource('payment','PaymentController');
     Route::resource('bantuan','BantuanController');
+    Route::resource('activity','ActivityController');
 
     
 
